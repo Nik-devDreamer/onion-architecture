@@ -1,0 +1,7 @@
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\bin\Debug\Onion-architecture.exe.config
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\bin\Debug\Onion-architecture.exe
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\bin\Debug\Onion-architecture.pdb
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\obj\Debug\Onion-architecture.csprojAssemblyReference.cache
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\obj\Debug\Onion-architecture.csproj.CoreCompileInputs.cache
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\obj\Debug\Onion-architecture.exe
+D:\Microsoft Visual Studio 2019\Project\Onion-architecture\Onion-architecture\obj\Debug\Onion-architecture.pdb

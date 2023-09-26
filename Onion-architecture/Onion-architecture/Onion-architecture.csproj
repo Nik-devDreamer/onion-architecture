@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{66D7164C-B854-4E62-B9D1-A7CC4ABD2C98}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Onion_architecture</RootNamespace>
+    <AssemblyName>Onion-architecture</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\Document.cs" />
+    <Compile Include="Domain\Email.cs" />
+    <Compile Include="Domain\EventStore.cs" />
+    <Compile Include="Domain\IEvent.cs" />
+    <Compile Include="Domain\Password.cs" />
+    <Compile Include="Domain\Request.cs" />
+    <Compile Include="Domain\RequestApprovedEvent.cs" />
+    <Compile Include="Domain\RequestCreateEvent.cs" />
+    <Compile Include="Domain\RequestProgress.cs" />
+    <Compile Include="Domain\RequestRejectEvent.cs" />
+    <Compile Include="Domain\Role.cs" />
+    <Compile Include="Domain\RoleType.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\Workflow.cs" />
+    <Compile Include="Domain\WorkflowStep.cs" />
+    <Compile Include="Domain\WorkflowStepTemplate.cs" />
+    <Compile Include="Domain\WorkflowTemplate.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
