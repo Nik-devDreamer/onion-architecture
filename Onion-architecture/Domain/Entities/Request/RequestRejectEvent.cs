@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Onion_architecture.Domain
+namespace Onion_architecture.Domain.Entities.Request
 {
-    public class RequestRejectEvent : IEvent
+    public class RequestRejectEvent : IEvent.IEvent
     {
         public Guid Id { get; private set; }
         public DateTime Date { get; private set; }

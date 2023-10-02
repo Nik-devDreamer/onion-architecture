@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Onion_architecture.Domain
+namespace Onion_architecture.Domain.Entities.User
 {
     public class Email
     {
@@ -25,7 +21,7 @@ namespace Onion_architecture.Domain
 
         private bool IsValidEmail(string email)
         {
-            string emailPattern = @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$";
+            const string emailPattern = @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$";
             return Regex.IsMatch(email, emailPattern);
         }
     }

@@ -41,23 +41,21 @@
     <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Document.cs" />
-    <Compile Include="Domain\Email.cs" />
-    <Compile Include="Domain\EventStore.cs" />
-    <Compile Include="Domain\IEvent.cs" />
-    <Compile Include="Domain\Password.cs" />
-    <Compile Include="Domain\Request.cs" />
-    <Compile Include="Domain\RequestApprovedEvent.cs" />
-    <Compile Include="Domain\RequestCreateEvent.cs" />
-    <Compile Include="Domain\RequestProgress.cs" />
-    <Compile Include="Domain\RequestRejectEvent.cs" />
-    <Compile Include="Domain\Role.cs" />
-    <Compile Include="Domain\RoleType.cs" />
-    <Compile Include="Domain\User.cs" />
-    <Compile Include="Domain\Workflow.cs" />
-    <Compile Include="Domain\WorkflowStep.cs" />
-    <Compile Include="Domain\WorkflowStepTemplate.cs" />
-    <Compile Include="Domain\WorkflowTemplate.cs" />
+    <Compile Include="Domain\Entities\User\Document.cs" />
+    <Compile Include="Domain\Entities\User\Email.cs" />
+    <Compile Include="Domain\IEvent\IEvent.cs" />
+    <Compile Include="Domain\Entities\User\Password.cs" />
+    <Compile Include="Domain\Entities\Request\Request.cs" />
+    <Compile Include="Domain\Entities\Request\RequestApprovedEvent.cs" />
+    <Compile Include="Domain\Entities\Request\RequestCreateEvent.cs" />
+    <Compile Include="Domain\Entities\Request\RequestProgress.cs" />
+    <Compile Include="Domain\Entities\Request\RequestRejectEvent.cs" />
+    <Compile Include="Domain\Entities\User\Role.cs" />
+    <Compile Include="Domain\Entities\User\User.cs" />
+    <Compile Include="Domain\Entities\Workflow\Workflow.cs" />
+    <Compile Include="Domain\Entities\Workflow\WorkflowStep.cs" />
+    <Compile Include="Domain\Entities\Workflow\WorkflowStepTemplate.cs" />
+    <Compile Include="Domain\Entities\Workflow\WorkflowTemplate.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>

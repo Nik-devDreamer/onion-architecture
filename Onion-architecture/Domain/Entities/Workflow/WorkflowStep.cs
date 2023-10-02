@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Onion_architecture.Domain
+namespace Onion_architecture.Domain.Entities.Workflow
 {
     public class WorkflowStep
     {
         public string Name { get; private set; }
         public int Order { get; private set; }
-        public Guid UserId { get; private set; }
-        public Guid RoleId { get; private set; }
+        public Guid? UserId { get; private set; }
+        public Guid? RoleId { get; private set; }
         public string Comment { get; private set; }
 
         public WorkflowStep(string name, int order, Guid userId, Guid roleId, string comment)
