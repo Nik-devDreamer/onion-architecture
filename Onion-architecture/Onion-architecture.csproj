@@ -41,21 +41,21 @@
     <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Entities\User\Document.cs" />
-    <Compile Include="Domain\Entities\User\Email.cs" />
-    <Compile Include="Domain\IEvent\IEvent.cs" />
-    <Compile Include="Domain\Entities\User\Password.cs" />
-    <Compile Include="Domain\Entities\Request\Request.cs" />
-    <Compile Include="Domain\Entities\Request\RequestApprovedEvent.cs" />
-    <Compile Include="Domain\Entities\Request\RequestCreateEvent.cs" />
-    <Compile Include="Domain\Entities\Request\RequestProgress.cs" />
-    <Compile Include="Domain\Entities\Request\RequestRejectEvent.cs" />
-    <Compile Include="Domain\Entities\User\Role.cs" />
-    <Compile Include="Domain\Entities\User\User.cs" />
-    <Compile Include="Domain\Entities\Workflow\Workflow.cs" />
-    <Compile Include="Domain\Entities\Workflow\WorkflowStep.cs" />
-    <Compile Include="Domain\Entities\Workflow\WorkflowStepTemplate.cs" />
-    <Compile Include="Domain\Entities\Workflow\WorkflowTemplate.cs" />
+    <Compile Include="Domain\Entities\Requests\Document.cs" />
+    <Compile Include="Domain\BaseObjectsNamespace\Email.cs" />
+    <Compile Include="Domain\BaseObjectsNamespace\IEvent.cs" />
+    <Compile Include="Domain\BaseObjectsNamespace\Password.cs" />
+    <Compile Include="Domain\Entities\Requests\Request.cs" />
+    <Compile Include="Domain\Entities\Requests\RequestApprovedEvent.cs" />
+    <Compile Include="Domain\Entities\Requests\RequestCreateEvent.cs" />
+    <Compile Include="Domain\Entities\Requests\RequestProgress.cs" />
+    <Compile Include="Domain\Entities\Requests\RequestRejectEvent.cs" />
+    <Compile Include="Domain\Entities\Users\Role.cs" />
+    <Compile Include="Domain\Entities\Users\User.cs" />
+    <Compile Include="Domain\Entities\Workflows\Workflow.cs" />
+    <Compile Include="Domain\Entities\Workflows\WorkflowStep.cs" />
+    <Compile Include="Domain\Entities\Workflows\WorkflowStepTemplate.cs" />
+    <Compile Include="Domain\Entities\Workflows\WorkflowTemplate.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
