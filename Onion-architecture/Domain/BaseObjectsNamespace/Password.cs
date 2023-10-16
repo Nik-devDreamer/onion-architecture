@@ -16,7 +16,7 @@ namespace Onion_architecture.Domain.BaseObjectsNamespace
         private void Validate(string value)
         {
             if (string.IsNullOrWhiteSpace(value) || !IsValidPassword(value))
-                throw new ArgumentException("Invalid password.");
+                throw new ArgumentException("Invalid password");
         }
 
         private bool IsValidPassword(string password)

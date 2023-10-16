@@ -16,7 +16,7 @@ namespace Onion_architecture.Domain.BaseObjectsNamespace
         private void Validate(string value)
         {
             if (string.IsNullOrWhiteSpace(value) || !IsValidEmail(value))
-                throw new ArgumentException("Invalid email.");
+                throw new ArgumentException("Invalid email");
         }
 
         private bool IsValidEmail(string email)

@@ -9,7 +9,7 @@ namespace Onion_architecture.Domain.Entities.Requests
 
         public Document(Email email)
         {
-            Email = email;
+            Email = email ?? throw new ArgumentNullException(nameof(email));
         }
     }
 }
