@@ -19,7 +19,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Password_ValueShouldBeSet()
+        public void Password_ValueShouldBeSetTest()
         {
             // Arrange
             var testingPassword = _fixture.Create<string>();
@@ -32,7 +32,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Password_ShouldBeCreatedWhenValidPasswordIsGiven()
+        public void Password_ShouldBeCreatedWhenValidPasswordIsGivenTest()
         {
             // Arrange
             var testingPassword = "Test@123";

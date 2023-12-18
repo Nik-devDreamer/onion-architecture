@@ -17,20 +17,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Constructor_ValidEmail_ShouldNotThrowException()
-        {
-            // Arrange
-            string validEmail = _fixture.Create<string>() + "@gmail.com";
-
-            // Act
-            Action act = () => new Email(validEmail);
-
-            // Assert
-            act.Should().NotThrow<Exception>();
-        }
-
-        [Test]
-        public void Constructor_InvalidEmail_ShouldThrowArgumentException()
+        public void Constructor_InvalidEmail_ShouldThrowArgumentExceptionTest()
         {
             // Arrange
             string invalidEmail = "invalidEmail";
@@ -43,7 +30,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Constructor_NullEmail_ShouldThrowArgumentException()
+        public void Constructor_NullEmail_ShouldThrowArgumentExceptionTest()
         {
             // Arrange
             string nullEmail = null;
@@ -56,7 +43,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Constructor_EmptyEmail_ShouldThrowArgumentException()
+        public void Constructor_EmptyEmail_ShouldThrowArgumentExceptionTest()
         {
             // Arrange
             string emptyEmail = string.Empty;

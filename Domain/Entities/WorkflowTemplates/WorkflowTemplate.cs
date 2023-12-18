@@ -12,17 +12,23 @@ namespace onion_architecture.Domain.Entities.WorkflowTemplates
         public string Name { get; private set; }
         public IReadOnlyList<WorkflowStepTemplate> Steps { get; private set; }
 
-        public WorkflowTemplate(Guid id, string name, List<WorkflowStepTemplate> steps)
+        public WorkflowTemplate(Guid id, string name, WorkflowStepTemplate[] steps)
         {
             Id = id;
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Steps = steps ?? throw new ArgumentNullException(nameof(steps));
         }
-
-        public Request Create(User user, Document document, string comment)
+        
+        public static WorkflowTemplate Create(string name, WorkflowStepTemplate[] steps)
         {
-            List<WorkflowStep> steps = Steps.Select
-                (t => new WorkflowStep(t.Name, t.Order, t.UserId, t.RoleId, comment)).ToList();
+            return new WorkflowTemplate(Guid.NewGuid(), name, steps);
+        }
+        
+        public Request CreateRequest(User user, Document document, string comment)
+        {
+            WorkflowStep[] steps = Steps
+                .Select(t => new WorkflowStep(t.Name, t.Order, t.UserId, t.RoleId, comment))
+                .ToArray();
             Workflow workflow = new Workflow(Id, Name, steps);
             return new Request(Guid.NewGuid(), user.Id, document, workflow);
         }

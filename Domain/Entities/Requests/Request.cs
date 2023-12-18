@@ -39,17 +39,14 @@ namespace onion_architecture.Domain.Entities.Requests
 
         public void Approve()
         {
-            if (Progress.CurrentStep < Workflow.Steps.Count)
+            if (Progress.CurrentStep < Workflow.Steps.Count && !Progress.IsApproved)
             {
-                WorkflowStep currentStep = Workflow.Steps[Progress.CurrentStep];
+                Progress.AdvanceStep(Workflow.Steps[Progress.CurrentStep], UserId);
 
-                if (Progress.CurrentStep == Workflow.Steps.Count - 1)
+                if (Progress.IsApproved)
                 {
                     _events.Add(new RequestApprovedEvent(Id));
-                    Progress.Approve(UserId);
                 }
-                
-                Progress.AdvanceStep(currentStep);
             }
             else
             {
@@ -59,21 +56,10 @@ namespace onion_architecture.Domain.Entities.Requests
 
         public void Reject()
         {
-            if (Progress.CurrentStep < Workflow.Steps.Count)
+            if (!Progress.IsRejected)
             {
-                WorkflowStep currentStep = Workflow.Steps[Progress.CurrentStep];
-
-                if (Progress.CurrentStep == Workflow.Steps.Count - 1)
-                {
-                    _events.Add(new RequestRejectEvent(Id));
-                    Progress.Reject(UserId);
-                }
-                
-                Progress.AdvanceStep(currentStep);
-            }
-            else
-            {
-                throw new InvalidOperationException("No next step is available");
+                _events.Add(new RequestRejectEvent(Id));
+                Progress.Reject(UserId);
             }
         }
 

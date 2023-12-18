@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using AutoFixture;
 using FluentAssertions;
+using NUnit.Framework.Constraints;
 using onion_architecture.Domain.Entities.Users;
 
 namespace onion_architecture.Tests.Domain
@@ -17,13 +18,13 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Role_CanBeCreatedWithValidName()
+        public void Role_CanBeCreatedWithValidNameTest()
         {
             // Arrange
             var roleName = _fixture.Create<string>();
 
             // Act
-            var role = new Role(roleName);
+            var role = Role.Create(roleName);
 
             // Assert
             role.Should().NotBeNull();
@@ -32,27 +33,27 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Role_CannotBeCreatedWithNullName()
+        public void Role_CannotBeCreatedWithNullNameTest()
         {
             // Arrange
             string roleName = null;
 
             // Act
-            Action createRoleAction = () => new Role(roleName);
+            Action createRoleAction = () => Role.Create(roleName);
 
             // Assert
             createRoleAction.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("name");
         }
 
         [Test]
-        public void Role_HasADifferentId()
+        public void Role_HasADifferentIdTest()
         {
             // Arrange
             var roleName = _fixture.Create<string>();
 
             // Act
-            var role1 = new Role(roleName);
-            var role2 = new Role(roleName);
+            var role1 = Role.Create(roleName);
+            var role2 = Role.Create(roleName);
 
             // Assert
             role1.Id.Should().NotBe(role2.Id);

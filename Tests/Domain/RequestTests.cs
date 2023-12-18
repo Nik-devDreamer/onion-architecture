@@ -26,11 +26,11 @@ namespace onion_architecture.Tests.Domain
             var email = new Email(_fixture.Create<string>() + "@gmail.com");
             var role = new Role("TestRole");
             var password = new Password("Test@123");
-            var document = new Document(email);
+            var document = new Document(email, name, "1234567890", DateTime.Now);
             var user = User.Create(name, email, role, password);
-            List<WorkflowStepTemplate> steps = CreateDefaultSteps(user.Id, user.RoleId);
-            WorkflowTemplate workflowTemplate = new WorkflowTemplate(Guid.NewGuid(), "HR", steps);
-            return workflowTemplate.Create(user, document, "Comment");
+            List<WorkflowStepTemplate> steps = CreateDefaultSteps(user.Id, role.Id);
+            WorkflowTemplate workflowTemplate = new WorkflowTemplate(Guid.NewGuid(), "HR", steps.ToArray());
+            return workflowTemplate.CreateRequest(user, document, "Comment");
         }
 
         private static List<WorkflowStepTemplate> CreateDefaultSteps(Guid userId, Guid roleGuid)
@@ -52,16 +52,8 @@ namespace onion_architecture.Tests.Domain
             }
         }
 
-        private void ProgressReject(Request request)
-        {
-            while (request.Progress.CurrentStep < request.Workflow.Steps.Count)
-            {
-                request.Reject();
-            }
-        }
-
         [Test]
-        public void Restart_ShouldResetProgress_WhenCalled()
+        public void Restart_ShouldResetProgress_WhenCalledTest()
         {
             // Arrange
             var request = CreateRequest();
@@ -77,7 +69,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Approve_ShouldApproveRequest_WhenValid()
+        public void Approve_ShouldApproveRequest_WhenValidTest()
         {
             // Arrange
             var request = CreateRequest();
@@ -92,13 +84,13 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Reject_ShouldRejectRequest_WhenValid()
+        public void Reject_ShouldRejectRequest_WhenValidTest()
         {
             // Arrange
             var request = CreateRequest();
 
             // Act
-            ProgressReject(request);
+            request.Reject();
 
             // Assert
             request.IsRejected().Should().BeTrue();
@@ -107,7 +99,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void EventsList_ShouldContainEvents_WhenActionsPerformed()
+        public void EventsList_ShouldContainEvents_WhenActionsPerformedTest()
         {
             // Arrange
             var request = CreateRequest();
@@ -120,7 +112,7 @@ namespace onion_architecture.Tests.Domain
         }
         
         [Test]
-        public void Approve_Should_ThrowException_When_NoNextStep()
+        public void Approve_Should_ThrowException_When_NoNextStepTest()
         {
             // Arrange
             var request = CreateRequest();
@@ -128,18 +120,6 @@ namespace onion_architecture.Tests.Domain
 
             // Act & Assert
             Action act = () => request.Approve();
-            act.Should().Throw<InvalidOperationException>().WithMessage("No next step is available");
-        }
-
-        [Test]
-        public void Reject_Should_ThrowException_When_NoNextStep()
-        {
-            // Arrange
-            var request = CreateRequest();
-            ProgressApprove(request);
-
-            // Act & Assert
-            Action act = () => request.Reject();
             act.Should().Throw<InvalidOperationException>().WithMessage("No next step is available");
         }
     }

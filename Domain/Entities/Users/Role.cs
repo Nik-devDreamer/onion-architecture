@@ -12,5 +12,10 @@ namespace onion_architecture.Domain.Entities.Users
             Id = Guid.NewGuid();
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
+        
+        public static Role Create(string name)
+        {
+            return new Role(name);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Constructor_SetsAllPropertiesCorrectly()
+        public void Constructor_SetsAllPropertiesCorrectlyTest()
         {
             // Arrange
             var id = _fixture.Create<Guid>();
@@ -39,7 +39,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void User_Constructor_NullNameThrowsArgumentNullException()
+        public void User_Constructor_NullNameThrowsArgumentNullExceptionTest()
         {
             // Arrange
             string name = null;
@@ -55,7 +55,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void User_Constructor_NullEmailThrowsArgumentNullException()
+        public void User_Constructor_NullEmailThrowsArgumentNullExceptionTest()
         {
             // Arrange
             string name = _fixture.Create<string>();
@@ -71,7 +71,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void User_Constructor_NullPasswordThrowsArgumentNullException()
+        public void User_Constructor_NullPasswordThrowsArgumentNullExceptionTest()
         {
             // Arrange
             var roleId = _fixture.Create<Guid>();
@@ -87,7 +87,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void User_Create_CreatesValidUser()
+        public void User_Create_CreatesValidUserTest()
         {
             // Arrange
             var name = _fixture.Create<string>();

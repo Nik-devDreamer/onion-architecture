@@ -10,7 +10,7 @@ namespace onion_architecture.Tests.Domain
     class RequestApprovedEventTests
     {
         [Test]
-        public void Constructor_ValidParameters_ObjectCreated()
+        public void Constructor_ValidParameters_ObjectCreatedTest()
         {
             // Arrange
             var requestId = Guid.NewGuid();

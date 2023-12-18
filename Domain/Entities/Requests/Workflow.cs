@@ -9,11 +9,16 @@ namespace onion_architecture.Domain.Entities.Requests
         public string Name { get; private set; }
         public IReadOnlyList<WorkflowStep> Steps { get; private set; }
 
-        public Workflow(Guid workflowTemplateId, string name, List<WorkflowStep> steps)
+        public Workflow(Guid workflowTemplateId, string name, WorkflowStep[] steps)
         {
             WorkflowTemplateId = workflowTemplateId;
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Steps = steps ?? throw new ArgumentNullException(nameof(steps));
+        }
+        
+        public static Workflow Create(string name, WorkflowStep[] steps)
+        {
+            return new Workflow(Guid.NewGuid(), name, steps);
         }
     }
 }

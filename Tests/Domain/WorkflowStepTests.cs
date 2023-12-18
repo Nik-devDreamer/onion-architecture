@@ -17,7 +17,7 @@ namespace onion_architecture.Tests.Domain
         }
         
         [Test]
-        public void Constructor_ShouldSetPropertiesCorrectly()
+        public void Constructor_ShouldSetPropertiesCorrectlyTest()
         {
             // Arrange
             string name = "Interview";
@@ -38,7 +38,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void UpdateComment_ShouldUpdateCommentCorrectly()
+        public void UpdateComment_ShouldUpdateCommentCorrectlyTest()
         {
             // Arrange
             WorkflowStep workflowStep = _fixture.Create<WorkflowStep>();

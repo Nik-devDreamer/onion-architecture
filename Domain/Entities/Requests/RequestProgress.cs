@@ -22,8 +22,13 @@ namespace onion_architecture.Domain.Entities.Requests
             IsRejected = false;
         }
 
-        public void AdvanceStep(WorkflowStep currentStep)
+        public void AdvanceStep(WorkflowStep currentStep, Guid? userId)
         {
+            if (CurrentStep == _workflow.Steps.Count - 1)
+            {
+                Approve(userId);
+            }
+
             CurrentStep++;
             currentStep.UpdateComment($"Approved step {CurrentStep}");
         }

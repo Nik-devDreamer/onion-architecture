@@ -18,12 +18,12 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Workflow_Constructor_ShouldSetProperties()
+        public void Workflow_Constructor_ShouldSetPropertiesTest()
         {
             // Arrange
             var workflowTemplateId = Guid.NewGuid();
             var workflowName = "Test Workflow";
-            var steps = new List<WorkflowStep>
+            var steps = new WorkflowStep[]
             {
                 new WorkflowStep("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1"),
                 new WorkflowStep("Step2", 2, Guid.NewGuid(), Guid.NewGuid(), "Comment2"),
@@ -40,44 +40,32 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void AdvanceStep_WhenCalled_ShouldIncrementCurrentStep()
+        public void AdvanceStep_WhenCalled_ShouldIncrementCurrentStepTest()
         {
             // Arrange
             var requestProgress = _fixture.Create<RequestProgress>();
             var currentStep = _fixture.Create<int>();
 
-            var fakeStep = new WorkflowStep(
-                _fixture.Create<string>(),
-                currentStep,
-                _fixture.Create<Guid?>(),
-                _fixture.Create<Guid?>(),
-                _fixture.Create<string>()
-            );
+            var fakeStep = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
 
             // Act
-            requestProgress.AdvanceStep(fakeStep);
+            requestProgress.AdvanceStep(fakeStep, fakeStep.UserId);
 
             // Assert
             requestProgress.CurrentStep.Should().Be(1);
         }
 
         [Test]
-        public void Reject_WhenCalledWithIncorrectUser_ShouldThrowInvalidOperationException()
+        public void Reject_WhenCalledWithIncorrectUser_ShouldThrowInvalidOperationExceptionTest()
         {
             // Arrange
             var requestProgress = _fixture.Create<RequestProgress>();
             var correctUserId = _fixture.Create<Guid>();
             var incorrectUserId = _fixture.Create<Guid>();
 
-            var fakeStep = new WorkflowStep(
-                _fixture.Create<string>(),
-                _fixture.Create<int>(),
-                correctUserId,
-                _fixture.Create<Guid?>(),
-                _fixture.Create<string>()
-            );
+            var fakeStep = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
 
-            requestProgress.AdvanceStep(fakeStep);
+            requestProgress.AdvanceStep(fakeStep, fakeStep.UserId);
 
             // Act
             Action rejectAction = () => requestProgress.Reject(incorrectUserId);
@@ -87,7 +75,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Reject_ShouldThrowException_WhenUserIdDoesNotMatch()
+        public void Reject_ShouldThrowException_WhenUserIdDoesNotMatchTest()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -95,7 +83,7 @@ namespace onion_architecture.Tests.Domain
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
-            ).ToList());
+            ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
 
             // Act
@@ -107,7 +95,7 @@ namespace onion_architecture.Tests.Domain
         }
         
         [Test]
-        public void Approve_ShouldSetIsApprovedToTrue_WhenUserIdMatches()
+        public void Approve_ShouldSetIsApprovedToTrue_WhenUserIdMatchesTest()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -115,7 +103,7 @@ namespace onion_architecture.Tests.Domain
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
-                ).ToList());
+                ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
             var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
@@ -127,7 +115,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Reject_ShouldSetIsRejectedToTrue_WhenUserIdMatches()
+        public void Reject_ShouldSetIsRejectedToTrue_WhenUserIdMatchesTest()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -135,7 +123,7 @@ namespace onion_architecture.Tests.Domain
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
-            ).ToList());
+            ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
             var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
@@ -147,7 +135,7 @@ namespace onion_architecture.Tests.Domain
         }
         
         [Test]
-        public void Approve_ShouldSetIsApproved_WhenUserIdMatches()
+        public void Approve_ShouldSetIsApproved_WhenUserIdMatchesTest()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -155,7 +143,7 @@ namespace onion_architecture.Tests.Domain
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
-            ).ToList());
+            ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
             var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
@@ -168,7 +156,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Approve_ShouldThrowException_WhenUserIdDoesNotMatch()
+        public void Approve_ShouldThrowException_WhenUserIdDoesNotMatchTest()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -176,7 +164,7 @@ namespace onion_architecture.Tests.Domain
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
-            ).ToList());
+            ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
             var id = workflow.Steps[requestProgress.CurrentStep].UserId;
             userId = Guid.NewGuid();

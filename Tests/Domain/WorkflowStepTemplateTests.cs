@@ -17,7 +17,7 @@ namespace onion_architecture.Tests.Domain
         }
         
         [Test]
-        public void Constructor_ShouldSetPropertiesCorrectly()
+        public void Constructor_ShouldSetPropertiesCorrectlyTest()
         {
             // Arrange
             string name = _fixture.Create<string>();
@@ -36,7 +36,7 @@ namespace onion_architecture.Tests.Domain
         }
 
         [Test]
-        public void Constructor_NullName_ShouldThrowArgumentNullException()
+        public void Constructor_NullName_ShouldThrowArgumentNullExceptionTest()
         {
             // Arrange
             string name = null;
