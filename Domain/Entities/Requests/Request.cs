@@ -58,8 +58,8 @@ namespace onion_architecture.Domain.Entities.Requests
         {
             if (!Progress.IsRejected)
             {
-                _events.Add(new RequestRejectEvent(Id));
                 Progress.Reject(UserId);
+                _events.Add(new RequestRejectEvent(Id));
             }
         }
 

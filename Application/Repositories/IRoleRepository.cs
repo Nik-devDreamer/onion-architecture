@@ -1,6 +1,6 @@
 using onion_architecture.Domain.Entities.Users;
 
-namespace Application;
+namespace Application.Repositories;
 
 public interface IRoleRepository
 {

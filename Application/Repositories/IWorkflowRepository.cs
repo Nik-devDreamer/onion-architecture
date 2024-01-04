@@ -1,6 +1,6 @@
 using onion_architecture.Domain.Entities.WorkflowTemplates;
 
-namespace Application;
+namespace Application.Repositories;
 
 public interface IWorkflowRepository
 {

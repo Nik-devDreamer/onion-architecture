@@ -1,7 +1,8 @@
+using Application.Models;
 using onion_architecture.Domain.BaseObjectsNamespace;
 using onion_architecture.Domain.Entities.Users;
 
-namespace Application;
+namespace Application.Services;
 
 public class CreateUserHandler
 {
@@ -24,10 +25,6 @@ public class CreateUserHandler
         }
 
         var role = roleRepository.GetById(command.RoleId);
-        if (role == null)
-        {
-            throw new InvalidOperationException("Role not found.");
-        }
 
         var password = new Password(command.Password);
         var user = User.Create(command.Name, new Email(command.Email), role, password);
