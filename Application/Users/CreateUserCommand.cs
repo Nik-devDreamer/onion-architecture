@@ -1,4 +1,4 @@
-namespace Application.Models;
+namespace Application.Users;
 
 public class CreateUserCommand
 {

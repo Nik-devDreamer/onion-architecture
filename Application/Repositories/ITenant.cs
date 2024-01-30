@@ -1,6 +1,4 @@
-using Application.Repositories;
-
-namespace Application.Services;
+namespace Application.Repositories;
 
 public interface ITenant
 {
@@ -9,6 +7,5 @@ public interface ITenant
     IWorkflowRepository Workflows { get; }
     IRequestRepository Requests { get; }
 
-    void Commit();
     Task CommitAsync();
 }

@@ -1,22 +1,23 @@
-using Application.Models;
+using Application.Factories;
 using onion_architecture.Domain.BaseObjectsNamespace;
 using onion_architecture.Domain.Entities.Users;
 
-namespace Application.Services;
+namespace Application.Users;
 
 public class CreateUserHandler
 {
-    private readonly ITenant _tenant;
+    private readonly ITenantFactory _tenantFactory;
 
-    public CreateUserHandler(ITenant tenant)
+    public CreateUserHandler(ITenantFactory tenantFactory)
     {
-        _tenant = tenant ?? throw new ArgumentNullException(nameof(tenant));
+        _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
     public Guid CreateUser(CreateUserCommand command)
     {
-        var userRepository = _tenant.Users;
-        var roleRepository = _tenant.Roles;
+        var tenant = _tenantFactory.GetTenant();
+        var userRepository = tenant.Users;
+        var roleRepository = tenant.Roles;
 
         var existingUser = userRepository.TryGetByEmail(command.Email);
         if (existingUser != null)
@@ -31,7 +32,7 @@ public class CreateUserHandler
 
         userRepository.Add(user);
 
-        _tenant.Commit();
+        tenant.CommitAsync();
 
         return user.Id;
     }
