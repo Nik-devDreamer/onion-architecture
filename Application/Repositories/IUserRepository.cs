@@ -5,6 +5,5 @@ namespace Application.Repositories;
 public interface IUserRepository
 {
     User? TryGetByEmail(string email);
-    
     void Add(User user);
 }

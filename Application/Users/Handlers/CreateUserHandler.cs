@@ -1,8 +1,9 @@
 using Application.Factories;
+using Application.Users.Commands;
 using onion_architecture.Domain.BaseObjectsNamespace;
 using onion_architecture.Domain.Entities.Users;
 
-namespace Application.Users;
+namespace Application.Users.Handlers;
 
 public class CreateUserHandler
 {

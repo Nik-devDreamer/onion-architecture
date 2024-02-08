@@ -16,12 +16,7 @@ public class Tenant : ITenant
         Workflows = workflowRepository ?? throw new ArgumentNullException(nameof(workflowRepository));
         Requests = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
     }
-
-    public void Commit()
-    {
-        
-    }
-
+    
     public async Task CommitAsync()
     {
         

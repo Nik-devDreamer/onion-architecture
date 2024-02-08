@@ -5,6 +5,4 @@ namespace Application.Repositories;
 public interface IRequestRepository
 {
     Request GetById(Guid requestId);
-    
-    void Add(Request request);
 }
