@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace onion_architecture.Domain.Entities.Requests
+﻿namespace Domain.Entities.Requests
 {
     public class WorkflowStep
     {

@@ -1,10 +1,8 @@
-using System;
-using NUnit.Framework;
-using AutoFixture;
+using Domain.Entities.Requests.Events;
 using FluentAssertions;
-using onion_architecture.Domain.Entities.Requests.Events;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class RequestRejectEventTests

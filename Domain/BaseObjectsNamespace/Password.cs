@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace onion_architecture.Domain.BaseObjectsNamespace
+namespace Domain.BaseObjectsNamespace
 {
     public class Password
     {

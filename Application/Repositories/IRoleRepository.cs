@@ -1,4 +1,4 @@
-using onion_architecture.Domain.Entities.Users;
+using Domain.Entities.Users;
 
 namespace Application.Repositories;
 

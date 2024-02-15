@@ -1,4 +1,4 @@
-using Application.Factories;
+using Application.Repositories;
 using Application.Requests.Commands;
 
 namespace Application.Requests.Handlers;
@@ -12,7 +12,7 @@ public class RejectRequestHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public void RejectRequest(RejectRequestCommand command)
+    public void Handle(RejectRequestCommand command)
     {
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
@@ -20,6 +20,6 @@ public class RejectRequestHandler
         var request = requestRepository.GetById(command.RequestId);
         request.Reject();
 
-        tenant.CommitAsync();
+        tenant.Commit();
     }
 }

@@ -1,14 +1,12 @@
-using System;
-using NUnit.Framework;
 using AutoFixture;
+using Domain.BaseObjectsNamespace;
+using Domain.Entities.Requests;
+using Domain.Entities.Users;
+using Domain.Entities.WorkflowTemplates;
 using FluentAssertions;
-using onion_architecture.Domain.BaseObjectsNamespace;
-using onion_architecture.Domain.Entities.Requests;
-using onion_architecture.Domain.Entities.Requests.Events;
-using onion_architecture.Domain.Entities.Users;
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class WorkflowTemplateTests

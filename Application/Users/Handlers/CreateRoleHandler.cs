@@ -1,8 +1,8 @@
-using Application.Factories;
-using Application.Roles.Commands;
-using onion_architecture.Domain.Entities.Users;
+using Application.Repositories;
+using Application.Users.Commands;
+using Domain.Entities.Users;
 
-namespace Application.Roles.Handlers;
+namespace Application.Users.Handlers;
 
 public class CreateRoleHandler
 {
@@ -13,7 +13,7 @@ public class CreateRoleHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public Guid CreateRole(CreateRoleCommand command)
+    public Guid Handle(CreateRoleCommand command)
     {
         var tenant = _tenantFactory.GetTenant();
         var roleRepository = tenant.Roles;
@@ -22,7 +22,7 @@ public class CreateRoleHandler
 
         roleRepository.Add(role);
 
-        tenant.CommitAsync();
+        tenant.Commit();
 
         return role.Id;
     }

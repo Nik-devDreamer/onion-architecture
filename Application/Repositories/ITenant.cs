@@ -4,8 +4,8 @@ public interface ITenant
 {
     IUserRepository Users { get; }
     IRoleRepository Roles { get; }
-    IWorkflowRepository Workflows { get; }
+    IWorkflowTemplateRepository WorkflowsTemplate { get; }
     IRequestRepository Requests { get; }
 
-    Task CommitAsync();
+    void Commit();
 }

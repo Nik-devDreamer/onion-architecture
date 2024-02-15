@@ -1,10 +1,9 @@
-using System;
-using NUnit.Framework;
 using AutoFixture;
+using Domain.BaseObjectsNamespace;
 using FluentAssertions;
-using onion_architecture.Domain.BaseObjectsNamespace;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class EmailTests

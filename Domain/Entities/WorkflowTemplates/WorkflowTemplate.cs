@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using onion_architecture.Domain.Entities.Requests;
-using onion_architecture.Domain.Entities.Users;
+﻿using Domain.Entities.Requests;
+using Domain.Entities.Users;
 
-namespace onion_architecture.Domain.Entities.WorkflowTemplates
+namespace Domain.Entities.WorkflowTemplates
 {
     public class WorkflowTemplate
     {

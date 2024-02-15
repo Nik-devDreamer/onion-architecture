@@ -1,10 +1,9 @@
-using System;
-using NUnit.Framework;
 using AutoFixture;
+using Domain.Entities.WorkflowTemplates;
 using FluentAssertions;
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class WorkflowStepTemplateTests

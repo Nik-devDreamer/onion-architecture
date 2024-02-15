@@ -1,6 +1,6 @@
-using Application.Factories;
+using Application.Repositories;
 using Application.Requests.Queries;
-using onion_architecture.Domain.Entities.Requests;
+using Domain.Entities.Requests;
 
 namespace Application.Requests.Handlers;
 
@@ -13,7 +13,7 @@ public class GetRequestByIdHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public Request GetRequestById(GetRequestByIdQuery query)
+    public Request Handle(GetRequestByIdQuery query)
     {
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;

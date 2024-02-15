@@ -1,6 +1,6 @@
-using Application.Factories;
+using Application.Repositories;
 using Application.Users.Queries;
-using onion_architecture.Domain.Entities.Users;
+using Domain.Entities.Users;
 
 namespace Application.Users.Handlers;
 
@@ -13,7 +13,7 @@ public class GetUserByEmailHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public User? GetUserByEmail(GetUserByEmailQuery query)
+    public User? Handle(GetUserByEmailQuery query)
     {
         return _tenantFactory.GetTenant().Users.TryGetByEmail(query.Email);
     }

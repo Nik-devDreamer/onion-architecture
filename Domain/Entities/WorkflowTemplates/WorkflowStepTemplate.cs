@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace onion_architecture.Domain.Entities.WorkflowTemplates
+﻿namespace Domain.Entities.WorkflowTemplates
 {
     public class WorkflowStepTemplate
     {

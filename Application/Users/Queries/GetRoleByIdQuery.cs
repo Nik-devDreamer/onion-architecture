@@ -1,4 +1,4 @@
-namespace Application.Roles.Queries;
+namespace Application.Users.Queries;
 
 public class GetRoleByIdQuery
 {

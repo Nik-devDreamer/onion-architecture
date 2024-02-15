@@ -1,8 +1,7 @@
-﻿using System;
-using onion_architecture.Domain.Entities.Requests.Events;
-using onion_architecture.Domain.BaseObjectsNamespace;
+﻿using System.Runtime.CompilerServices;
 
-namespace onion_architecture.Domain.Entities.Requests
+[assembly: InternalsVisibleTo("DomainTests")]
+namespace Domain.Entities.Requests
 {
     public class RequestProgress
     {
@@ -11,7 +10,7 @@ namespace onion_architecture.Domain.Entities.Requests
         public bool IsApproved { get; private set; }
         public bool IsRejected { get; private set; }
 
-        private Workflow _workflow;
+        private readonly Workflow _workflow;
         
         public RequestProgress(Guid requestId,  Workflow workflow)
         {
@@ -33,7 +32,7 @@ namespace onion_architecture.Domain.Entities.Requests
             currentStep.UpdateComment($"Approved step {CurrentStep}");
         }
 
-        public void Approve(Guid? userId)
+        internal void Approve(Guid? userId)
         {
             if (userId != _workflow.Steps[CurrentStep].UserId)
             {
@@ -43,7 +42,7 @@ namespace onion_architecture.Domain.Entities.Requests
             IsApproved = true;
         }
 
-        public void Reject(Guid? userId)
+        internal void Reject(Guid? userId)
         {
             if (userId != _workflow.Steps[CurrentStep].UserId)
             {

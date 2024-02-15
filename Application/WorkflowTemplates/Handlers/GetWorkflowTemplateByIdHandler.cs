@@ -1,8 +1,8 @@
-using Application.Factories;
-using Application.Workflows.Queries;
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using Application.Repositories;
+using Application.WorkflowTemplates.Queries;
+using Domain.Entities.WorkflowTemplates;
 
-namespace Application.Workflows.Handlers;
+namespace Application.WorkflowTemplates.Handlers;
 
 public class GetWorkflowTemplateByIdHandler
 {
@@ -13,10 +13,10 @@ public class GetWorkflowTemplateByIdHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public WorkflowTemplate GetWorkflowTemplateById(GetWorkflowTemplateByIdQuery query)
+    public WorkflowTemplate Handle(GetWorkflowTemplateByIdQuery query)
     {
         var tenant = _tenantFactory.GetTenant();
-        var workflowRepository = tenant.Workflows;
+        var workflowRepository = tenant.WorkflowsTemplate;
 
         return workflowRepository.GetWorkflowTemplateById(query.WorkflowTemplateId);
     }

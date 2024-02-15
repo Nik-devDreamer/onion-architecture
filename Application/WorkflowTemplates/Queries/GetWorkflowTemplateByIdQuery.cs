@@ -1,4 +1,4 @@
-namespace Application.Workflows.Queries;
+namespace Application.WorkflowTemplates.Queries;
 
 public class GetWorkflowTemplateByIdQuery
 {

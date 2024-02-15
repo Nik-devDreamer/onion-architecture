@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace onion_architecture.Domain.Entities.Users
+﻿namespace Domain.Entities.Users
 {
     public class Role
     {

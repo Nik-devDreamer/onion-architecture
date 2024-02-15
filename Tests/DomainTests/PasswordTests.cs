@@ -1,11 +1,10 @@
-﻿using System;
-using NUnit.Framework;
+﻿using System.Text.RegularExpressions;
 using AutoFixture;
+using Domain.BaseObjectsNamespace;
 using FluentAssertions;
-using onion_architecture.Domain.BaseObjectsNamespace;
-using System.Text.RegularExpressions;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class PasswordTests

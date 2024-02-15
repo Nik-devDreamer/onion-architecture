@@ -1,6 +1,6 @@
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using Domain.Entities.WorkflowTemplates;
 
-namespace Application.Workflows.Commands;
+namespace Application.WorkflowTemplates.Commands;
 
 public class CreateWorkflowTemplateCommand
 {

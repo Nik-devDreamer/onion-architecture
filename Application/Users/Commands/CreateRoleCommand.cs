@@ -1,4 +1,4 @@
-namespace Application.Roles.Commands;
+namespace Application.Users.Commands;
 
 public class CreateRoleCommand
 {

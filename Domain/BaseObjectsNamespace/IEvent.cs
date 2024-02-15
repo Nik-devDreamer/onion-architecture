@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace onion_architecture.Domain.BaseObjectsNamespace
+﻿namespace Domain.BaseObjectsNamespace
 {
     public interface IEvent
     {

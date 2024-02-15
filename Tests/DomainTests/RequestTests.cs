@@ -1,14 +1,13 @@
-using System;
-using NUnit.Framework;
 using AutoFixture;
+using Domain.BaseObjectsNamespace;
+using Domain.Entities.Requests;
+using Domain.Entities.Requests.Events;
+using Domain.Entities.Users;
+using Domain.Entities.WorkflowTemplates;
 using FluentAssertions;
-using onion_architecture.Domain.BaseObjectsNamespace;
-using onion_architecture.Domain.Entities.Requests;
-using onion_architecture.Domain.Entities.Requests.Events;
-using onion_architecture.Domain.Entities.Users;
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class RequestTests
@@ -120,7 +119,20 @@ namespace onion_architecture.Tests.Domain
 
             // Act & Assert
             Action act = () => request.Approve();
-            act.Should().Throw<InvalidOperationException>().WithMessage("No next step is available");
+            act.Should().Throw<InvalidOperationException>().WithMessage("Cannot advance to the next step: either the request is already approved or rejected, or there are no more steps available.");
+        }
+
+        [Test]
+        public void Reject_ShouldThrowException_WhenAlreadyApprovedTest()
+        {
+            // Arrange
+            var request = CreateRequest();
+            ProgressApprove(request);
+
+            // Act & Assert
+            Action act = () => request.Reject();
+            act.Should().Throw<InvalidOperationException>()
+                .WithMessage("Request is already approved or rejected");
         }
     }
 }

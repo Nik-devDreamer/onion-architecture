@@ -1,11 +1,10 @@
-﻿using System;
-using NUnit.Framework;
-using AutoFixture;
+﻿using AutoFixture;
+using Domain.BaseObjectsNamespace;
+using Domain.Entities.Users;
 using FluentAssertions;
-using onion_architecture.Domain.BaseObjectsNamespace;
-using onion_architecture.Domain.Entities.Users;
+using NUnit.Framework;
 
-namespace onion_architecture.Tests.Domain
+namespace DomainTests
 {
     [TestFixture]
     class UserTests

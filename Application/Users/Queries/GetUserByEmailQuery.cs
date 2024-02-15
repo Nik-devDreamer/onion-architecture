@@ -1,10 +1,12 @@
+using Domain.BaseObjectsNamespace;
+
 namespace Application.Users.Queries;
 
 public class GetUserByEmailQuery
 {
-    public string Email { get; }
+    public Email Email { get; }
 
-    public GetUserByEmailQuery(string email)
+    public GetUserByEmailQuery(Email email)
     {
         Email = email;
     }

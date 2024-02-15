@@ -1,4 +1,4 @@
-using Application.Factories;
+using Application.Repositories;
 using Application.Requests.Commands;
 
 namespace Application.Requests.Handlers;
@@ -12,7 +12,7 @@ public class RestartRequestHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public void RestartRequest(RestartRequestCommand command)
+    public void Handle(RestartRequestCommand command)
     {
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
@@ -20,6 +20,6 @@ public class RestartRequestHandler
         var request = requestRepository.GetById(command.RequestId);
         request.Restart();
 
-        tenant.CommitAsync();
+        tenant.Commit();
     }
 }

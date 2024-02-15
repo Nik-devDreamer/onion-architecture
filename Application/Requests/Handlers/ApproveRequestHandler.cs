@@ -1,4 +1,4 @@
-using Application.Factories;
+using Application.Repositories;
 using Application.Requests.Commands;
 
 namespace Application.Requests.Handlers;
@@ -11,8 +11,8 @@ public class ApproveRequestHandler
     {
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
-
-    public void ApproveRequest(ApproveRequestCommand command)
+    
+    public void Handle(ApproveRequestCommand command)
     {
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
@@ -20,6 +20,6 @@ public class ApproveRequestHandler
         var request = requestRepository.GetById(command.RequestId);
         request.Approve();
 
-        tenant.CommitAsync();
+        tenant.Commit();
     }
 }

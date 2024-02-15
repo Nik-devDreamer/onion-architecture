@@ -1,8 +1,8 @@
-using Application.Factories;
-using Application.Workflows.Commands;
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using Application.Repositories;
+using Application.WorkflowTemplates.Commands;
+using Domain.Entities.WorkflowTemplates;
 
-namespace Application.Workflows.Handlers;
+namespace Application.WorkflowTemplates.Handlers;
 
 public class CreateWorkflowTemplateHandler
 {
@@ -13,16 +13,16 @@ public class CreateWorkflowTemplateHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public Guid CreateWorkflowTemplate(CreateWorkflowTemplateCommand command)
+    public Guid Handle(CreateWorkflowTemplateCommand command)
     {
         var tenant = _tenantFactory.GetTenant();
-        var workflowRepository = tenant.Workflows;
+        var workflowRepository = tenant.WorkflowsTemplate;
 
         var workflowTemplate = WorkflowTemplate.Create(command.Name, command.Steps);
 
         workflowRepository.Add(workflowTemplate);
 
-        tenant.CommitAsync();
+        tenant.Commit();
 
         return workflowTemplate.Id;
     }

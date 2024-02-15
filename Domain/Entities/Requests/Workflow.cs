@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace onion_architecture.Domain.Entities.Requests
+﻿namespace Domain.Entities.Requests
 {
     public class Workflow
     {

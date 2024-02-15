@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using onion_architecture.Domain.Entities.Requests.Events;
-using onion_architecture.Domain.BaseObjectsNamespace;
+﻿using Domain.BaseObjectsNamespace;
+using Domain.Entities.Requests.Events;
 
-
-namespace onion_architecture.Domain.Entities.Requests
+namespace Domain.Entities.Requests
 {
     public class Request
     {
@@ -39,7 +35,7 @@ namespace onion_architecture.Domain.Entities.Requests
 
         public void Approve()
         {
-            if (Progress.CurrentStep < Workflow.Steps.Count && !Progress.IsApproved)
+            if (Progress.CurrentStep < Workflow.Steps.Count && Progress is { IsApproved: false, IsRejected: false }) 
             {
                 Progress.AdvanceStep(Workflow.Steps[Progress.CurrentStep], UserId);
 
@@ -50,16 +46,20 @@ namespace onion_architecture.Domain.Entities.Requests
             }
             else
             {
-                throw new InvalidOperationException("No next step is available");
+                throw new InvalidOperationException("Cannot advance to the next step: either the request is already approved or rejected, or there are no more steps available.");
             }
         }
 
         public void Reject()
         {
-            if (!Progress.IsRejected)
+            if (Progress is { IsRejected: false, IsApproved: false })
             {
                 Progress.Reject(UserId);
                 _events.Add(new RequestRejectEvent(Id));
+            }
+            else
+            {
+                throw new InvalidOperationException("Request is already approved or rejected");
             }
         }
 

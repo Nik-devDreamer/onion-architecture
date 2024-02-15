@@ -1,8 +1,8 @@
-using onion_architecture.Domain.Entities.WorkflowTemplates;
+using Domain.Entities.WorkflowTemplates;
 
 namespace Application.Repositories;
 
-public interface IWorkflowRepository
+public interface IWorkflowTemplateRepository
 {
     WorkflowTemplate GetWorkflowTemplateById(Guid workflowTemplateId);
     void Add(WorkflowTemplate workflowTemplate);

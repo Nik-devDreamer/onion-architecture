@@ -1,7 +1,6 @@
-﻿using System;
-using onion_architecture.Domain.BaseObjectsNamespace;
+﻿using Domain.BaseObjectsNamespace;
 
-namespace onion_architecture.Domain.Entities.Users
+namespace Domain.Entities.Users
 {
     public class User
     {

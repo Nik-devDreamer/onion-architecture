@@ -1,8 +1,8 @@
-using Application.Factories;
-using Application.Roles.Queries;
-using onion_architecture.Domain.Entities.Users;
+using Application.Repositories;
+using Application.Users.Queries;
+using Domain.Entities.Users;
 
-namespace Application.Roles.Handlers;
+namespace Application.Users.Handlers;
 
 public class GetRoleByIdHandler
 {
@@ -13,7 +13,7 @@ public class GetRoleByIdHandler
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public Role GetRoleById(GetRoleByIdQuery query)
+    public Role Handle(GetRoleByIdQuery query)
     {
         var tenant = _tenantFactory.GetTenant();
         var roleRepository = tenant.Roles;
