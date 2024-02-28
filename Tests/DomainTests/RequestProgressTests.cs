@@ -43,7 +43,6 @@ namespace DomainTests
         {
             // Arrange
             var requestProgress = _fixture.Create<RequestProgress>();
-            var currentStep = _fixture.Create<int>();
 
             var fakeStep = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
 

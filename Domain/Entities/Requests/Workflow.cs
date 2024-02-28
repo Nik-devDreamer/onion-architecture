@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities.Requests
+﻿using Domain.Entities.WorkflowTemplates;
+
+namespace Domain.Entities.Requests
 {
     public class Workflow
     {
@@ -13,9 +15,12 @@
             Steps = steps ?? throw new ArgumentNullException(nameof(steps));
         }
         
-        public static Workflow Create(string name, WorkflowStep[] steps)
+        public static Workflow Create(WorkflowTemplate template)
         {
-            return new Workflow(Guid.NewGuid(), name, steps);
+            WorkflowStep[] steps = template.Steps
+                .Select(t => new WorkflowStep(t.Name, t.Order, t.UserId, t.RoleId, null))
+                .ToArray();
+            return new Workflow(template.Id, template.Name, steps);
         }
     }
 }

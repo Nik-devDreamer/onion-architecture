@@ -18,6 +18,6 @@ public class GetWorkflowTemplateByIdHandler
         var tenant = _tenantFactory.GetTenant();
         var workflowRepository = tenant.WorkflowsTemplate;
 
-        return workflowRepository.GetWorkflowTemplateById(query.WorkflowTemplateId);
+        return workflowRepository.GetById(query.WorkflowTemplateId);
     }
 }

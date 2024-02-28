@@ -7,7 +7,7 @@ public class ApproveRequestHandler
 {
     private readonly ITenantFactory _tenantFactory;
 
-    public ApproveRequestHandler(ITenantFactory tenantFactory)
+    public ApproveRequestHandler(ITenantFactory tenantFactory, IUserRepository userRepository)
     {
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
@@ -18,7 +18,7 @@ public class ApproveRequestHandler
         var requestRepository = tenant.Requests;
 
         var request = requestRepository.GetById(command.RequestId);
-        request.Approve();
+        request.Approve(request.UserId);
 
         tenant.Commit();
     }

@@ -4,6 +4,6 @@ namespace Application.Repositories;
 
 public interface IWorkflowTemplateRepository
 {
-    WorkflowTemplate GetWorkflowTemplateById(Guid workflowTemplateId);
+    WorkflowTemplate GetById(Guid workflowTemplateId);
     void Add(WorkflowTemplate workflowTemplate);
 }

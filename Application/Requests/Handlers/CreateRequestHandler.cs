@@ -1,6 +1,7 @@
 using Application.Repositories;
 using Application.Requests.Commands;
 using Domain.Entities.Requests;
+using Domain.Entities.WorkflowTemplates;
 
 namespace Application.Requests.Handlers;
 
@@ -18,9 +19,9 @@ public class CreateRequestHandler
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
 
-        var workflowTemplate = command.WorkflowTemplate;
-        var steps = workflowTemplate.Steps.Select(stepTemplate => new WorkflowStep(stepTemplate.Name, stepTemplate.Order, null, null, null)).ToArray();
-        var workflow = new Workflow(Guid.NewGuid(), workflowTemplate.Name, steps);
+        var workflowTemplateId = command.WorkflowTemplateId;
+        var workflowTemplate = tenant.WorkflowsTemplate.GetById(workflowTemplateId);
+        var workflow = Workflow.Create(workflowTemplate);
 
         var request = new Request(Guid.NewGuid(), command.UserId, command.Document, workflow);
 

@@ -7,7 +7,7 @@ public class RejectRequestHandler
 {
     private readonly ITenantFactory _tenantFactory;
 
-    public RejectRequestHandler(ITenantFactory tenantFactory)
+    public RejectRequestHandler(ITenantFactory tenantFactory, IUserRepository userRepository)
     {
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
@@ -18,7 +18,7 @@ public class RejectRequestHandler
         var requestRepository = tenant.Requests;
 
         var request = requestRepository.GetById(command.RequestId);
-        request.Reject();
+        request.Reject(request.UserId);
 
         tenant.Commit();
     }

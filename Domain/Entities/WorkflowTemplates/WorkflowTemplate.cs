@@ -21,12 +21,9 @@ namespace Domain.Entities.WorkflowTemplates
             return new WorkflowTemplate(Guid.NewGuid(), name, steps);
         }
         
-        public Request CreateRequest(User user, Document document, string comment)
+        public Request CreateRequest(User user, Document document)
         {
-            WorkflowStep[] steps = Steps
-                .Select(t => new WorkflowStep(t.Name, t.Order, t.UserId, t.RoleId, comment))
-                .ToArray();
-            Workflow workflow = new Workflow(Id, Name, steps);
+            Workflow workflow = Workflow.Create(this);
             return new Request(Guid.NewGuid(), user.Id, document, workflow);
         }
     }

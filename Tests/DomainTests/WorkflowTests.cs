@@ -1,5 +1,6 @@
 using AutoFixture;
 using Domain.Entities.Requests;
+using Domain.Entities.WorkflowTemplates;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -20,13 +21,14 @@ namespace DomainTests
         {
             // Arrange
             var workflowTemplateName = "TestWorkflowTemplate";
-            var step1 = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
-            var step2 = WorkflowStep.Create("Step2", 2, Guid.NewGuid(), Guid.NewGuid(), "Comment2");
+            var step1 = new WorkflowStepTemplate("Step1", 1, Guid.NewGuid(), Guid.NewGuid());
+            var step2 = new WorkflowStepTemplate("Step2", 2, Guid.NewGuid(), Guid.NewGuid());
 
-            var steps = new WorkflowStep[] { step1, step2 };
+            var steps = new WorkflowStepTemplate[] { step1, step2 };
+            var workflowTemplate = WorkflowTemplate.Create(workflowTemplateName, steps);
 
             // Act
-            var workflow = Workflow.Create(workflowTemplateName, steps);
+            var workflow = Workflow.Create(workflowTemplate);
 
             // Assert
             workflow.Should().NotBeNull();

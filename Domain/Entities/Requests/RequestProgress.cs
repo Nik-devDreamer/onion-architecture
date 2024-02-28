@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Domain.Entities.Users;
 
 [assembly: InternalsVisibleTo("DomainTests")]
 namespace Domain.Entities.Requests
@@ -44,7 +45,7 @@ namespace Domain.Entities.Requests
 
         internal void Reject(Guid? userId)
         {
-            if (userId != _workflow.Steps[CurrentStep].UserId)
+            if (userId != _workflow.Steps[CurrentStep].UserId )
             {
                 throw new InvalidOperationException("User does not have permission to perform this action.");
             }

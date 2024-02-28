@@ -7,12 +7,12 @@ public class CreateRequestCommand
 {
     public Guid UserId { get; }
     public Document Document { get; }
-    public WorkflowTemplate WorkflowTemplate { get; }
+    public Guid WorkflowTemplateId { get; }
     
-    public CreateRequestCommand(Guid userId, Document document, WorkflowTemplate workflowTemplate)
+    public CreateRequestCommand(Guid userId, Document document, Guid workflowTemplateId)
     {
         UserId = userId;
         Document = document;
-        WorkflowTemplate = workflowTemplate;
+        WorkflowTemplateId = workflowTemplateId;
     }
 }

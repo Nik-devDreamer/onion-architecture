@@ -1,5 +1,6 @@
 ﻿using Domain.BaseObjectsNamespace;
 using Domain.Entities.Requests.Events;
+using Domain.Entities.Users;
 
 namespace Domain.Entities.Requests
 {
@@ -33,11 +34,11 @@ namespace Domain.Entities.Requests
             return Progress.IsRejected;
         }
 
-        public void Approve()
+        public void Approve(Guid userId)
         {
             if (Progress.CurrentStep < Workflow.Steps.Count && Progress is { IsApproved: false, IsRejected: false }) 
             {
-                Progress.AdvanceStep(Workflow.Steps[Progress.CurrentStep], UserId);
+                Progress.AdvanceStep(Workflow.Steps[Progress.CurrentStep], userId);
 
                 if (Progress.IsApproved)
                 {
@@ -50,11 +51,11 @@ namespace Domain.Entities.Requests
             }
         }
 
-        public void Reject()
+        public void Reject(Guid userId)
         {
             if (Progress is { IsRejected: false, IsApproved: false })
             {
-                Progress.Reject(UserId);
+                Progress.Reject(userId);
                 _events.Add(new RequestRejectEvent(Id));
             }
             else

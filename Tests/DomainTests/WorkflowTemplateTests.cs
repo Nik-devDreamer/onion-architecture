@@ -66,7 +66,7 @@ namespace DomainTests
             var comment = "Test Comment";
 
             // Act
-            var request = workflowTemplate.CreateRequest(user, document, comment);
+            var request = workflowTemplate.CreateRequest(user, document);
 
             // Assert
             request.Should().NotBeNull();

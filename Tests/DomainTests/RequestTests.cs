@@ -29,7 +29,7 @@ namespace DomainTests
             var user = User.Create(name, email, role, password);
             List<WorkflowStepTemplate> steps = CreateDefaultSteps(user.Id, role.Id);
             WorkflowTemplate workflowTemplate = new WorkflowTemplate(Guid.NewGuid(), "HR", steps.ToArray());
-            return workflowTemplate.CreateRequest(user, document, "Comment");
+            return workflowTemplate.CreateRequest(user, document);
         }
 
         private static List<WorkflowStepTemplate> CreateDefaultSteps(Guid userId, Guid roleGuid)
@@ -47,7 +47,7 @@ namespace DomainTests
         {
             while (request.Progress.CurrentStep < request.Workflow.Steps.Count)
             {
-                request.Approve();
+                request.Approve(request.UserId);
             }
         }
 
@@ -56,7 +56,7 @@ namespace DomainTests
         {
             // Arrange
             var request = CreateRequest();
-            request.Approve();
+            request.Approve(request.UserId);
 
             // Act
             request.Restart();
@@ -89,7 +89,7 @@ namespace DomainTests
             var request = CreateRequest();
 
             // Act
-            request.Reject();
+            request.Reject(request.UserId);
 
             // Assert
             request.IsRejected().Should().BeTrue();
@@ -118,7 +118,7 @@ namespace DomainTests
             ProgressApprove(request);
 
             // Act & Assert
-            Action act = () => request.Approve();
+            Action act = () => request.Approve(request.UserId);
             act.Should().Throw<InvalidOperationException>().WithMessage("Cannot advance to the next step: either the request is already approved or rejected, or there are no more steps available.");
         }
 
@@ -130,7 +130,7 @@ namespace DomainTests
             ProgressApprove(request);
 
             // Act & Assert
-            Action act = () => request.Reject();
+            Action act = () => request.Reject(request.UserId);
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Request is already approved or rejected");
         }
