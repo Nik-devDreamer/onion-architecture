@@ -28,8 +28,8 @@ public class CreateUserHandler
 
         var role = roleRepository.GetById(command.RoleId);
 
-        var password = new Password(command.Password.ToString() ?? throw new InvalidOperationException());
-        var user = User.Create(command.Name, new Email(command.Email.ToString() ?? throw new InvalidOperationException()), role, password);
+        var password = command.Password;
+        var user = User.Create(command.Name, command.Email, role, password);
 
         userRepository.Add(user);
 

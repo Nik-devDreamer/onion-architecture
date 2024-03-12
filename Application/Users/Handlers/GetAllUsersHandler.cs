@@ -4,20 +4,22 @@ using Domain.Entities.Users;
 
 namespace Application.Users.Handlers;
 
-public class GetUserByIdHandler
+public class GetAllUsersHandler
 {
     private readonly ITenantFactory _tenantFactory;
 
-    public GetUserByIdHandler(ITenantFactory tenantFactory)
+    public GetAllUsersHandler(ITenantFactory tenantFactory)
     {
         _tenantFactory = tenantFactory ?? throw new ArgumentNullException(nameof(tenantFactory));
     }
 
-    public User? Handle(GetUserByIdQuery query)
+    public IReadOnlyCollection<User> Handle(GetAllUsersQuery query)
     {
         var tenant = _tenantFactory.GetTenant();
         var userRepository = tenant.Users;
-        
-        return userRepository.GetById(query.UserId);
+
+        var allUsers = userRepository.GetAll();
+
+        return allUsers;
     }
 }

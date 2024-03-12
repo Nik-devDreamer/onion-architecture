@@ -6,6 +6,6 @@ public class GetWorkflowTemplateByIdQuery
 
     public GetWorkflowTemplateByIdQuery(Guid workflowTemplateId)
     {
-        WorkflowTemplateId = workflowTemplateId;
+        WorkflowTemplateId = workflowTemplateId != Guid.Empty ? workflowTemplateId : throw new ArgumentException("WorkflowTemplateId cannot be empty.", nameof(workflowTemplateId));
     }
 }

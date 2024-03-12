@@ -8,6 +8,6 @@ public class GetUserByEmailQuery
 
     public GetUserByEmailQuery(Email email)
     {
-        Email = email;
+        Email = email ?? throw new ArgumentNullException(nameof(email));
     }
 }

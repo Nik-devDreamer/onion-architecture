@@ -6,6 +6,6 @@ public class GetUserByIdQuery
 
     public GetUserByIdQuery(Guid userId)
     {
-        UserId = userId;
+        UserId = userId != Guid.Empty ? userId : throw new ArgumentException("UserId cannot be empty.", nameof(userId));
     }
 }

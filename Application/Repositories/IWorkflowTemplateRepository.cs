@@ -6,4 +6,5 @@ public interface IWorkflowTemplateRepository
 {
     WorkflowTemplate GetById(Guid workflowTemplateId);
     void Add(WorkflowTemplate workflowTemplate);
+    IReadOnlyCollection<WorkflowTemplate> GetAll();
 }

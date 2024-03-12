@@ -6,6 +6,6 @@ public class GetRoleByIdQuery
 
     public GetRoleByIdQuery(Guid roleId)
     {
-        RoleId = roleId;
+        RoleId = roleId != Guid.Empty ? roleId : throw new ArgumentException("RoleId cannot be empty.", nameof(roleId));
     }
 }

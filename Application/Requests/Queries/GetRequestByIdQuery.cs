@@ -6,6 +6,6 @@ public class GetRequestByIdQuery
 
     public GetRequestByIdQuery(Guid requestId)
     {
-        RequestId = requestId;
+        RequestId = requestId != Guid.Empty ? requestId : throw new ArgumentException("RequestId cannot be empty.", nameof(requestId));
     }
 }

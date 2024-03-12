@@ -18,12 +18,14 @@ public class CreateRequestHandler
     {
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
+        var userRepository = tenant.Users;
 
+        var user = userRepository.GetById(command.UserId);
         var workflowTemplateId = command.WorkflowTemplateId;
         var workflowTemplate = tenant.WorkflowsTemplate.GetById(workflowTemplateId);
         var workflow = Workflow.Create(workflowTemplate);
 
-        var request = new Request(Guid.NewGuid(), command.UserId, command.Document, workflow);
+        var request = new Request(Guid.NewGuid(), user, command.Document, workflow);
 
         requestRepository.Add(request);
 

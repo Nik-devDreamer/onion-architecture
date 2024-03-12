@@ -8,4 +8,5 @@ public interface IRequestRepository
     Request GetById(Guid requestId);
     void Add(Request request);
     void Create(CreateRequestCommand command);
+    IReadOnlyCollection<Request> GetAll();
 }

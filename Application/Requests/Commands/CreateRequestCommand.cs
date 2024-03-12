@@ -11,8 +11,8 @@ public class CreateRequestCommand
     
     public CreateRequestCommand(Guid userId, Document document, Guid workflowTemplateId)
     {
-        UserId = userId;
-        Document = document;
-        WorkflowTemplateId = workflowTemplateId;
+        UserId = userId != Guid.Empty ? userId : throw new ArgumentException("UserId cannot be empty.", nameof(userId));
+        Document = document ?? throw new ArgumentNullException(nameof(document), "Document cannot be null.");
+        WorkflowTemplateId = workflowTemplateId != Guid.Empty ? workflowTemplateId : throw new ArgumentException("WorkflowTemplateId cannot be empty.", nameof(workflowTemplateId));
     }
 }
