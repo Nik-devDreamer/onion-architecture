@@ -7,7 +7,7 @@ namespace Domain.Entities.WorkflowTemplates
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public IReadOnlyList<WorkflowStepTemplate> Steps { get; private set; }
+        public IReadOnlyCollection<WorkflowStepTemplate> Steps { get; private set; }
 
         public WorkflowTemplate(Guid id, string name, WorkflowStepTemplate[] steps)
         {
@@ -24,7 +24,7 @@ namespace Domain.Entities.WorkflowTemplates
         public Request CreateRequest(User user, Document document)
         {
             Workflow workflow = Workflow.Create(this);
-            return new Request(Guid.NewGuid(), user.Id, document, workflow);
+            return new Request(Guid.NewGuid(), user, document, workflow);
         }
     }
 }

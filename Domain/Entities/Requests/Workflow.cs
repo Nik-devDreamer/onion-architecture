@@ -6,7 +6,7 @@ namespace Domain.Entities.Requests
     {
         public Guid WorkflowTemplateId { get; private set; }
         public string Name { get; private set; }
-        public IReadOnlyList<WorkflowStep> Steps { get; private set; }
+        public IReadOnlyCollection<WorkflowStep> Steps { get; private set; }
 
         public Workflow(Guid workflowTemplateId, string name, WorkflowStep[] steps)
         {
@@ -18,7 +18,7 @@ namespace Domain.Entities.Requests
         public static Workflow Create(WorkflowTemplate template)
         {
             WorkflowStep[] steps = template.Steps
-                .Select(t => new WorkflowStep(t.Name, t.Order, t.UserId, t.RoleId, null))
+                .Select(WorkflowStep.Create)
                 .ToArray();
             return new Workflow(template.Id, template.Name, steps);
         }

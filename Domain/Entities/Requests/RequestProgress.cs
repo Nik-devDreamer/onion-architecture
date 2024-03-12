@@ -22,35 +22,39 @@ namespace Domain.Entities.Requests
             IsRejected = false;
         }
 
-        public void AdvanceStep(WorkflowStep currentStep, Guid? userId)
+        public void AdvanceStep(WorkflowStep currentStep,  User user)
         {
+            IsAuthorized(user);
+            
             if (CurrentStep == _workflow.Steps.Count - 1)
             {
-                Approve(userId);
+                Approve(user);
             }
 
             CurrentStep++;
             currentStep.UpdateComment($"Approved step {CurrentStep}");
         }
 
-        internal void Approve(Guid? userId)
+        internal void Approve(User user)
         {
-            if (userId != _workflow.Steps[CurrentStep].UserId)
-            {
-                throw new InvalidOperationException("User does not have permission to perform this action.");
-            }
+            IsAuthorized(user);
             
             IsApproved = true;
         }
 
-        internal void Reject(Guid? userId)
+        internal void Reject(User user)
         {
-            if (userId != _workflow.Steps[CurrentStep].UserId )
+            IsAuthorized(user);
+            
+            IsRejected = true;
+        }
+        
+        private void IsAuthorized(User user)
+        {
+            if (user.Id != _workflow.Steps.ElementAt(CurrentStep).UserId && user.RoleId != _workflow.Steps.ElementAt(CurrentStep).RoleId)
             {
                 throw new InvalidOperationException("User does not have permission to perform this action.");
             }
-            
-            IsRejected = true;
         }
     }
 }

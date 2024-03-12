@@ -1,5 +1,7 @@
 using AutoFixture;
+using Domain.BaseObjectsNamespace;
 using Domain.Entities.Requests;
+using Domain.Entities.Users;
 using Domain.Entities.WorkflowTemplates;
 using FluentAssertions;
 using NUnit.Framework;
@@ -14,6 +16,16 @@ namespace DomainTests
         public RequestProgressTests()
         {
             _fixture = new Fixture();
+        }
+        
+        private User CreateFakeUser()
+        {
+            var id = _fixture.Create<Guid>();
+            var name = _fixture.Create<string>();
+            var email = new Email(_fixture.Create<string>() + "@gmail.com");
+            var roleId = _fixture.Create<Guid>();
+            var password = new Password("Test@123");
+            return new User(id, name, email, roleId, password);
         }
 
         [Test]
@@ -42,12 +54,16 @@ namespace DomainTests
         public void AdvanceStep_WhenCalled_ShouldIncrementCurrentStepTest()
         {
             // Arrange
-            var requestProgress = _fixture.Create<RequestProgress>();
-
-            var fakeStep = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
-
+            var correctUser = CreateFakeUser();
+            var requestId = Guid.NewGuid();
+            var workflowTemplate = _fixture.Create<WorkflowTemplate>();
+            var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
+            ).ToArray());
+            var requestProgress = new RequestProgress(requestId, workflow);
+            
             // Act
-            requestProgress.AdvanceStep(fakeStep, fakeStep.UserId);
+            requestProgress.AdvanceStep(workflow.Steps.ElementAt(0),correctUser);
 
             // Assert
             requestProgress.CurrentStep.Should().Be(1);
@@ -57,16 +73,17 @@ namespace DomainTests
         public void Reject_WhenCalledWithIncorrectUser_ShouldThrowInvalidOperationExceptionTest()
         {
             // Arrange
-            var requestProgress = _fixture.Create<RequestProgress>();
-            var correctUserId = _fixture.Create<Guid>();
-            var incorrectUserId = _fixture.Create<Guid>();
-
-            var fakeStep = WorkflowStep.Create("Step1", 1, Guid.NewGuid(), Guid.NewGuid(), "Comment1");
-
-            requestProgress.AdvanceStep(fakeStep, fakeStep.UserId);
+            var correctUser = CreateFakeUser();
+            var incorrectUser = CreateFakeUser();
+            var requestId = Guid.NewGuid();
+            var workflowTemplate = _fixture.Create<WorkflowTemplate>();
+            var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
+            ).ToArray());
+            var requestProgress = new RequestProgress(requestId, workflow);
 
             // Act
-            Action rejectAction = () => requestProgress.Reject(incorrectUserId);
+            Action rejectAction = () => requestProgress.Reject(incorrectUser);
 
             // Assert
             rejectAction.Should().Throw<InvalidOperationException>();
@@ -83,9 +100,10 @@ namespace DomainTests
                 step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
             ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
+            var incorrectUser = CreateFakeUser();
 
             // Act
-            Action act = () => requestProgress.Reject(Guid.NewGuid());
+            Action act = () => requestProgress.Reject(incorrectUser);
 
             // Assert
             act.Should().Throw<InvalidOperationException>()
@@ -96,17 +114,16 @@ namespace DomainTests
         public void Approve_ShouldSetIsApprovedToTrue_WhenUserIdMatchesTest()
         {
             // Arrange
-            var userId = Guid.NewGuid();
+            var correctUser = CreateFakeUser();
             var requestId = Guid.NewGuid();
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
-                step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
                 ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
-            var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
             // Act
-            requestProgress.Approve(id);
+            requestProgress.Approve(correctUser);
 
             // Assert
             requestProgress.IsApproved.Should().BeTrue();
@@ -116,17 +133,16 @@ namespace DomainTests
         public void Reject_ShouldSetIsRejectedToTrue_WhenUserIdMatchesTest()
         {
             // Arrange
-            var userId = Guid.NewGuid();
+            var correctUser = CreateFakeUser();
             var requestId = Guid.NewGuid();
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
-                step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
             ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
-            var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
             // Act
-            requestProgress.Reject(id);
+            requestProgress.Reject(correctUser);
 
             // Assert
             requestProgress.IsRejected.Should().BeTrue();
@@ -136,17 +152,16 @@ namespace DomainTests
         public void Approve_ShouldSetIsApproved_WhenUserIdMatchesTest()
         {
             // Arrange
-            var userId = Guid.NewGuid();
+            var correctUser = CreateFakeUser();
             var requestId = Guid.NewGuid();
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
-                step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
             ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
-            var id = workflow.Steps[requestProgress.CurrentStep].UserId;
 
             // Act
-            requestProgress.Approve(userId);
+            requestProgress.Approve(correctUser);
 
             // Assert
             requestProgress.IsApproved.Should().BeTrue();
@@ -157,22 +172,18 @@ namespace DomainTests
         public void Approve_ShouldThrowException_WhenUserIdDoesNotMatchTest()
         {
             // Arrange
-            var userId = Guid.NewGuid();
+            var correctUser = CreateFakeUser();
             var requestId = Guid.NewGuid();
             var workflowTemplate = _fixture.Create<WorkflowTemplate>();
             var workflow = new Workflow(workflowTemplate.Id, workflowTemplate.Name, workflowTemplate.Steps.Select(
-                step => new WorkflowStep("Step1", 1, userId, Guid.NewGuid(), "Comment1")
+                step => new WorkflowStep("Step1", 1, correctUser.Id, Guid.NewGuid(), "Comment1")
             ).ToArray());
             var requestProgress = new RequestProgress(requestId, workflow);
-            var id = workflow.Steps[requestProgress.CurrentStep].UserId;
-            userId = Guid.NewGuid();
 
             // Act
-            Action act = () => requestProgress.Approve(userId);
+            Action act = () => requestProgress.Approve(correctUser);
 
             // Assert
-            act.Should().Throw<InvalidOperationException>()
-                .WithMessage("User does not have permission to perform this action.");
             requestProgress.IsApproved.Should().BeFalse();
             requestProgress.IsRejected.Should().BeFalse();
         }

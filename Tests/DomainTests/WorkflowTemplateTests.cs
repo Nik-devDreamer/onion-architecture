@@ -46,24 +46,22 @@ namespace DomainTests
         public void Create_ShouldCreateRequestWithCorrectValuesTest()
         {
             // Arrange
-            var workflowTemplateName = "TestWorkflowTemplate";
-            var stepTemplates = new WorkflowStepTemplate[]
-            {
-                new WorkflowStepTemplate("Step1", 1, Guid.NewGuid(), Guid.NewGuid()),
-                new WorkflowStepTemplate("Step2", 2, Guid.NewGuid(), Guid.NewGuid())
-            };
-            var workflowTemplate = WorkflowTemplate.Create(workflowTemplateName, stepTemplates);
-    
             var userName = "John";
             var userEmail = _fixture.Create<string>() + "@gmail.com";
             var userRole = _fixture.Create<Role>();
             var validPassword = new Password("Test@123");
             var userPassword = validPassword;
             var user = User.Create(userName, new Email(userEmail), userRole, userPassword);
-
             var documentEmail = _fixture.Create<string>() + "@gmail.com";
             var document = new Document(new Email(documentEmail), "John Doe", "123456789", DateTime.Now);
-            var comment = "Test Comment";
+            
+            var workflowTemplateName = "TestWorkflowTemplate";
+            var stepTemplates = new WorkflowStepTemplate[]
+            {
+                new WorkflowStepTemplate("Step1", 1, user.Id, user.RoleId),
+                new WorkflowStepTemplate("Step2", 2, user.Id, user.RoleId)
+            };
+            var workflowTemplate = WorkflowTemplate.Create(workflowTemplateName, stepTemplates);
 
             // Act
             var request = workflowTemplate.CreateRequest(user, document);
@@ -71,7 +69,7 @@ namespace DomainTests
             // Assert
             request.Should().NotBeNull();
             request.Id.Should().NotBe(Guid.Empty);
-            request.UserId.Should().Be(user.Id);
+            request.User.Id.Should().Be(user.Id);
             request.Document.Should().Be(document);
             request.Workflow.Should().NotBeNull();
             request.Progress.Should().NotBeNull();

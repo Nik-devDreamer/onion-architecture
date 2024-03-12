@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities.Requests
+﻿using Domain.Entities.WorkflowTemplates;
+
+namespace Domain.Entities.Requests
 {
     public class WorkflowStep
     {
@@ -21,10 +23,20 @@
         {
             return new WorkflowStep(name, order, userId, roleId, comment);
         }
+        
+        public static WorkflowStep Create(WorkflowStepTemplate template)
+        {
+            return new WorkflowStep(template.Name, template.Order, template.UserId, template.RoleId, null);
+        }
 
         public void UpdateComment(string? comment)
         {
             Comment = comment;
+        }
+        
+        public bool IsInProgress(RequestProgress progress)
+        {
+            return progress.CurrentStep < Order && progress is { IsApproved: false, IsRejected: false };
         }
     }
 }

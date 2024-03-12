@@ -4,6 +4,10 @@ namespace Domain.BaseObjectsNamespace
 {
     public class Email
     {
+        private static readonly Regex EmailRegex = new Regex(
+            @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$", 
+            RegexOptions.Compiled);
+
         public string Value { get; private set; }
 
         public Email(string value)
@@ -20,8 +24,7 @@ namespace Domain.BaseObjectsNamespace
 
         private bool IsValidEmail(string email)
         {
-            const string emailPattern = @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$";
-            return Regex.IsMatch(email, emailPattern);
+            return EmailRegex.IsMatch(email);
         }
     }
 }

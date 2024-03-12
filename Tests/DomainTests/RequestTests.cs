@@ -47,7 +47,7 @@ namespace DomainTests
         {
             while (request.Progress.CurrentStep < request.Workflow.Steps.Count)
             {
-                request.Approve(request.UserId);
+                request.Approve(request.User);
             }
         }
 
@@ -56,7 +56,7 @@ namespace DomainTests
         {
             // Arrange
             var request = CreateRequest();
-            request.Approve(request.UserId);
+            request.Approve(request.User);
 
             // Act
             request.Restart();
@@ -89,7 +89,7 @@ namespace DomainTests
             var request = CreateRequest();
 
             // Act
-            request.Reject(request.UserId);
+            request.Reject(request.User);
 
             // Assert
             request.IsRejected().Should().BeTrue();
@@ -109,18 +109,6 @@ namespace DomainTests
             // Assert
             request.EventsList.Should().NotBeEmpty().And.ContainItemsAssignableTo<IEvent>();
         }
-        
-        [Test]
-        public void Approve_Should_ThrowException_When_NoNextStepTest()
-        {
-            // Arrange
-            var request = CreateRequest();
-            ProgressApprove(request);
-
-            // Act & Assert
-            Action act = () => request.Approve(request.UserId);
-            act.Should().Throw<InvalidOperationException>().WithMessage("Cannot advance to the next step: either the request is already approved or rejected, or there are no more steps available.");
-        }
 
         [Test]
         public void Reject_ShouldThrowException_WhenAlreadyApprovedTest()
@@ -130,9 +118,58 @@ namespace DomainTests
             ProgressApprove(request);
 
             // Act & Assert
-            Action act = () => request.Reject(request.UserId);
+            Action act = () => request.Reject(request.User);
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Request is already approved or rejected");
+        }
+
+        [Test]
+        public void Approve_ShouldThrowException_WhenInvalidUserTest()
+        {
+            // Arrange
+            var request = CreateRequest();
+            var invalidUser = new User(Guid.NewGuid(), "Invalid User", new Email("invaliduser@example.com"),
+                Guid.NewGuid(), new Password("Test@123"));
+
+            // Act
+            Action act = () => request.Approve(invalidUser);
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>()
+                .WithMessage("User does not have permission to perform this action.");
+        }
+
+        [Test]
+        public void Approve_ShouldAdvanceStepAndNotThrowException_WhenLastStepTest()
+        {
+            // Arrange
+            var request = CreateRequest();
+            while (request.Progress.CurrentStep < request.Workflow.Steps.Count - 1)
+            {
+                request.Approve(request.User);
+            }
+
+            // Act
+            Action act = () => request.Approve(request.User);
+
+            // Assert
+            act.Should().NotThrow<InvalidOperationException>();
+            request.IsApproved().Should().BeTrue();
+        }
+
+        [Test]
+        public void Approve_ShouldNotAdvanceStep_WhenAlreadyApprovedTest()
+        {
+            // Arrange
+            var request = CreateRequest();
+            ProgressApprove(request);
+
+            // Act
+            Action act = () => request.Approve(request.User);
+
+            // Assert
+            act.Should().NotThrow<InvalidOperationException>();
+            request.IsApproved().Should().BeTrue();
         }
     }
 }

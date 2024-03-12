@@ -4,6 +4,10 @@ namespace Domain.BaseObjectsNamespace
 {
     public class Password
     {
+        private static readonly Regex PasswordRegex = new Regex(
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$", 
+            RegexOptions.Compiled);
+
         public string Value { get; private set; }
 
         public Password(string value)
@@ -20,8 +24,7 @@ namespace Domain.BaseObjectsNamespace
 
         private bool IsValidPassword(string password)
         {
-            const string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$";
-            return Regex.IsMatch(password, pattern);
+            return PasswordRegex.IsMatch(password);
         }
     }
 }
