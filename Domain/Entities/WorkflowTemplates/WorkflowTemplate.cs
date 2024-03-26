@@ -24,7 +24,7 @@ namespace Domain.Entities.WorkflowTemplates
         public Request CreateRequest(User user, Document document)
         {
             Workflow workflow = Workflow.Create(this);
-            return new Request(Guid.NewGuid(), user, document, workflow);
+            return new Request(Guid.NewGuid(), user.Id, document, workflow);
         }
     }
 }

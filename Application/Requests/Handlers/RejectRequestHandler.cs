@@ -19,7 +19,7 @@ public class RejectRequestHandler
         var userRepository = tenant.Users;
 
         var request = requestRepository.GetById(command.RequestId);
-        var user = userRepository.GetById(request.User.Id);
+        var user = userRepository.GetById(command.UserId);
         request.Reject(user);
 
         tenant.Commit();

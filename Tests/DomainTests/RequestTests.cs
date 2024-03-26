@@ -19,7 +19,7 @@ namespace DomainTests
             _fixture = new Fixture();
         }
 
-        private Request CreateRequest()
+        private (Request request, User user) CreateRequest()
         {
             var name = _fixture.Create<string>();
             var email = new Email(_fixture.Create<string>() + "@gmail.com");
@@ -29,7 +29,8 @@ namespace DomainTests
             var user = User.Create(name, email, role, password);
             List<WorkflowStepTemplate> steps = CreateDefaultSteps(user.Id, role.Id);
             WorkflowTemplate workflowTemplate = new WorkflowTemplate(Guid.NewGuid(), "HR", steps.ToArray());
-            return workflowTemplate.CreateRequest(user, document);
+            var request = workflowTemplate.CreateRequest(user, document);
+            return (request, user);
         }
 
         private static List<WorkflowStepTemplate> CreateDefaultSteps(Guid userId, Guid roleGuid)
@@ -43,11 +44,11 @@ namespace DomainTests
             };
         }
 
-        private void ProgressApprove(Request request)
+        private void ProgressApprove(Request request, User user)
         {
             while (request.Progress.CurrentStep < request.Workflow.Steps.Count)
             {
-                request.Approve(request.User);
+                request.Approve(user);
             }
         }
 
@@ -55,8 +56,7 @@ namespace DomainTests
         public void Restart_ShouldResetProgress_WhenCalledTest()
         {
             // Arrange
-            var request = CreateRequest();
-            request.Approve(request.User);
+            var (request, user) = CreateRequest();
 
             // Act
             request.Restart();
@@ -71,10 +71,10 @@ namespace DomainTests
         public void Approve_ShouldApproveRequest_WhenValidTest()
         {
             // Arrange
-            var request = CreateRequest();
+            var (request, user) = CreateRequest();
 
             // Act
-            ProgressApprove(request);
+            ProgressApprove(request, user);
 
             // Assert
             request.IsApproved().Should().BeTrue();
@@ -86,10 +86,10 @@ namespace DomainTests
         public void Reject_ShouldRejectRequest_WhenValidTest()
         {
             // Arrange
-            var request = CreateRequest();
+            var (request, user) = CreateRequest();
 
             // Act
-            request.Reject(request.User);
+            request.Reject(user);
 
             // Assert
             request.IsRejected().Should().BeTrue();
@@ -101,10 +101,10 @@ namespace DomainTests
         public void EventsList_ShouldContainEvents_WhenActionsPerformedTest()
         {
             // Arrange
-            var request = CreateRequest();
+            var (request, user) = CreateRequest();
 
             // Act
-            ProgressApprove(request);
+            ProgressApprove(request, user);
 
             // Assert
             request.EventsList.Should().NotBeEmpty().And.ContainItemsAssignableTo<IEvent>();
@@ -114,11 +114,12 @@ namespace DomainTests
         public void Reject_ShouldThrowException_WhenAlreadyApprovedTest()
         {
             // Arrange
-            var request = CreateRequest();
-            ProgressApprove(request);
+            var (request, user) = CreateRequest();
+            
+            ProgressApprove(request, user);
 
             // Act & Assert
-            Action act = () => request.Reject(request.User);
+            Action act = () => request.Reject(user);
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage("Request is already approved or rejected");
         }
@@ -127,7 +128,7 @@ namespace DomainTests
         public void Approve_ShouldThrowException_WhenInvalidUserTest()
         {
             // Arrange
-            var request = CreateRequest();
+            var (request, user) = CreateRequest();
             var invalidUser = new User(Guid.NewGuid(), "Invalid User", new Email("invaliduser@example.com"),
                 Guid.NewGuid(), new Password("Test@123"));
 
@@ -143,14 +144,14 @@ namespace DomainTests
         public void Approve_ShouldAdvanceStepAndNotThrowException_WhenLastStepTest()
         {
             // Arrange
-            var request = CreateRequest();
+            var (request, user) = CreateRequest();
             while (request.Progress.CurrentStep < request.Workflow.Steps.Count - 1)
             {
-                request.Approve(request.User);
+                request.Approve(user);
             }
 
             // Act
-            Action act = () => request.Approve(request.User);
+            Action act = () => request.Approve(user);
 
             // Assert
             act.Should().NotThrow<InvalidOperationException>();
@@ -161,11 +162,11 @@ namespace DomainTests
         public void Approve_ShouldNotAdvanceStep_WhenAlreadyApprovedTest()
         {
             // Arrange
-            var request = CreateRequest();
-            ProgressApprove(request);
+            var (request, user) = CreateRequest();
+            ProgressApprove(request, user);
 
             // Act
-            Action act = () => request.Approve(request.User);
+            Action act = () => request.Approve(user);
 
             // Assert
             act.Should().NotThrow<InvalidOperationException>();

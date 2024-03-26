@@ -10,16 +10,16 @@ namespace Domain.Entities.Requests
         private readonly List<IEvent> _events = new List<IEvent>();
 
         public Guid Id { get; private set; }
-        public User User { get; private set; }
+        public Guid UserId { get; private set; }
         public Document Document { get; private set; }
         public Workflow Workflow { get; private set; }
         public RequestProgress Progress { get; private set; }
         public IReadOnlyCollection<IEvent> EventsList => _events.AsReadOnly();
 
-        public Request(Guid id, User user, Document document, Workflow workflow)
+        public Request(Guid id, Guid userId, Document document, Workflow workflow)
         {
             Id = id;
-            User = user ?? throw new ArgumentNullException(nameof(user));
+            UserId = userId;
             Document = document ?? throw new ArgumentNullException(nameof(document));
             Workflow = workflow ?? throw new ArgumentNullException(nameof(workflow));
             Progress = new RequestProgress(id, workflow);

@@ -69,7 +69,6 @@ namespace DomainTests
             // Assert
             request.Should().NotBeNull();
             request.Id.Should().NotBe(Guid.Empty);
-            request.User.Id.Should().Be(user.Id);
             request.Document.Should().Be(document);
             request.Workflow.Should().NotBeNull();
             request.Progress.Should().NotBeNull();

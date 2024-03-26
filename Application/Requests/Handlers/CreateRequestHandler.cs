@@ -25,7 +25,7 @@ public class CreateRequestHandler
         var workflowTemplate = tenant.WorkflowsTemplate.GetById(workflowTemplateId);
         var workflow = Workflow.Create(workflowTemplate);
 
-        var request = new Request(Guid.NewGuid(), user, command.Document, workflow);
+        var request = new Request(Guid.NewGuid(), user.Id, command.Document, workflow);
 
         requestRepository.Add(request);
 
