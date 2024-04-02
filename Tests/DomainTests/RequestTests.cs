@@ -172,5 +172,28 @@ namespace DomainTests
             act.Should().NotThrow<InvalidOperationException>();
             request.IsApproved().Should().BeTrue();
         }
+
+        [Test]
+        public void UserId_ShouldBeSet_WhenRequestCreated()
+        {
+            // Arrange
+            var (request, user) = CreateRequest();
+
+            // Assert
+            request.UserId.Should().Be(user.Id);
+        }
+        
+        [Test]
+        public void Approve_ShouldThrowException_WhenAlreadyApprovedOrRejected()
+        {
+            // Arrange
+            var (request, user) = CreateRequest();
+            request.Reject(user);
+
+            // Act & Assert
+            Action act = () => request.Approve(user);
+            act.Should().Throw<InvalidOperationException>()
+                .WithMessage("Cannot advance to the next step: either the request is already approved or rejected, or there are no more steps available.");
+        }
     }
 }
