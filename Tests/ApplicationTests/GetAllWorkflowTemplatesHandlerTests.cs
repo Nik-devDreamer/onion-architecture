@@ -14,9 +14,9 @@ public class GetAllWorkflowTemplatesHandlerTests
     public void Handle_ReturnsAllWorkflowTemplates_WhenCalledTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var workflowRepositoryMock = new Mock<IWorkflowTemplateRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var workflowRepositoryMock = new Mock<IWorkflowTemplateRepository>(MockBehavior.Strict);
 
         var handler = new GetAllWorkflowTemplatesHandler(tenantFactoryMock.Object);
         var query = new GetAllWorkflowTemplatesQuery();
@@ -48,9 +48,9 @@ public class GetAllWorkflowTemplatesHandlerTests
     public void Handle_ReturnsEmptyCollection_WhenNoWorkflowTemplatesExistTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var workflowRepositoryMock = new Mock<IWorkflowTemplateRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var workflowRepositoryMock = new Mock<IWorkflowTemplateRepository>(MockBehavior.Strict);
 
         var handler = new GetAllWorkflowTemplatesHandler(tenantFactoryMock.Object);
         var query = new GetAllWorkflowTemplatesQuery();

@@ -50,10 +50,10 @@ public class RejectRequestHandlerTests
     public void Handle_ValidCommand_RequestRejectedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
         var (request, user) = CreateRequest();
 
@@ -62,6 +62,7 @@ public class RejectRequestHandlerTests
         tenantMock.Setup(tenant => tenant.Users).Returns(userRepositoryMock.Object);
         requestRepositoryMock.Setup(repo => repo.GetById(request.Id)).Returns(request);
         userRepositoryMock.Setup(repo => repo.GetById(user.Id)).Returns(user);
+        tenantMock.Setup(tenant => tenant.Commit()).Verifiable();
 
         var handler = new RejectRequestHandler(tenantFactoryMock.Object);
         var command = new RejectRequestCommand(user.Id, request.Id);

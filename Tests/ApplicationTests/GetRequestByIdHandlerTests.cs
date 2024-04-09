@@ -52,9 +52,9 @@ public class GetRequestByIdHandlerTests
         // Arrange
         var requestId = Guid.NewGuid();
         var (request, _) = CreateRequest();
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
 
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
         tenantMock.Setup(tenant => tenant.Requests).Returns(requestRepositoryMock.Object);
@@ -74,9 +74,9 @@ public class GetRequestByIdHandlerTests
     {
         // Arrange
         var requestId = Guid.NewGuid();
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
 
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
         tenantMock.Setup(tenant => tenant.Requests).Returns(requestRepositoryMock.Object);

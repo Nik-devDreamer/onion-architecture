@@ -51,10 +51,11 @@ public class GetAllRequestsHandlerTests
     public void Handle_ReturnsAllRequestsTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
         var expectedRequests = new List<Request>();
+        
         for (int i = 0; i < 5; i++)
         {
             var (request, _) = CreateRequest();
@@ -78,9 +79,9 @@ public class GetAllRequestsHandlerTests
     public void Handle_NoRequests_ReturnsEmptyCollectionTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
         var expectedRequests = new List<Request>();
         
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);

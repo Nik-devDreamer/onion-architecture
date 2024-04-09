@@ -21,10 +21,10 @@ public class GetAllUsersHandlerTests
             new User(Guid.NewGuid(), "Name2", new Email("email2@gmail.com"), Guid.NewGuid(), new Password("Test@1234"))
         };
 
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         userRepositoryMock.Setup(repo => repo.GetAll()).Returns(users);
 
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant().Users).Returns(userRepositoryMock.Object);
 
         var getAllUsersHandler = new GetAllUsersHandler(tenantFactoryMock.Object);
@@ -42,10 +42,10 @@ public class GetAllUsersHandlerTests
     public void Handle_ReturnsEmptyList_WhenNoUsersExistTest()
     {
         // Arrange
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         userRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<User>());
 
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant().Users).Returns(userRepositoryMock.Object);
 
         var getAllUsersHandler = new GetAllUsersHandler(tenantFactoryMock.Object);

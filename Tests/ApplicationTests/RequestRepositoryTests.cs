@@ -21,7 +21,7 @@ public class RequestRepositoryTests
     public void Setup()
     {
         _fixture = new Fixture();
-        _mockRequestRepository = new Mock<IRequestRepository>();
+        _mockRequestRepository = new Mock<IRequestRepository>(MockBehavior.Strict);
         _requestRepository = _mockRequestRepository.Object;
     }
 
@@ -63,7 +63,7 @@ public class RequestRepositoryTests
     public void GetById_ValidId_ReturnsRequestTest()
     {
         // Arrange
-        var (request, user) = CreateRequest();
+        var (request, _) = CreateRequest();
         _mockRequestRepository.Setup(repo => repo.GetById(request.Id)).Returns(request);
 
         // Act
@@ -77,7 +77,8 @@ public class RequestRepositoryTests
     public void Add_ValidRequest_AddsRequestTest()
     {
         // Arrange
-        var (request, user) = CreateRequest();
+        var (request, _) = CreateRequest();
+        _mockRequestRepository.Setup(repo => repo.Add(request));
 
         // Act
         _requestRepository.Add(request);
@@ -91,7 +92,8 @@ public class RequestRepositoryTests
     {
         // Arrange
         var command = new CreateRequestCommand(Guid.NewGuid(), CreateDocument(), Guid.NewGuid());
-
+        _mockRequestRepository.Setup(repo => repo.Create(command));
+        
         // Act
         _requestRepository.Create(command);
 

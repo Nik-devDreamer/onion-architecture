@@ -15,15 +15,17 @@ public class CreateRoleHandlerTests
     public void Handle_ValidCommand_RoleCreatedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var roleRepositoryMock = new Mock<IRoleRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var roleRepositoryMock = new Mock<IRoleRepository>(MockBehavior.Strict);
 
         var roleName = "TestRole";
         var command = new CreateRoleCommand(roleName);
 
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
         tenantMock.Setup(tenant => tenant.Roles).Returns(roleRepositoryMock.Object);
+        roleRepositoryMock.Setup(repo => repo.Add(It.IsAny<Role>()));
+        tenantMock.Setup(tenant => tenant.Commit());
 
         var createRoleHandler = new CreateRoleHandler(tenantFactoryMock.Object);
 

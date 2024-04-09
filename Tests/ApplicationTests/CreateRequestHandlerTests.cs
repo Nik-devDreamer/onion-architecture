@@ -36,11 +36,11 @@ public class CreateRequestHandlerTests
     public void Handle_ValidCommand_RequestCreatedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
-        var userRepositoryMock = new Mock<IUserRepository>();
-        var workflowTemplateRepositoryMock = new Mock<IWorkflowTemplateRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        var workflowTemplateRepositoryMock = new Mock<IWorkflowTemplateRepository>(MockBehavior.Strict);
 
         var name = _fixture.Create<string>();
         var email = new Email(_fixture.Create<string>() + "@gmail.com");
@@ -58,6 +58,8 @@ public class CreateRequestHandlerTests
         tenantMock.Setup(tenant => tenant.WorkflowsTemplate).Returns(workflowTemplateRepositoryMock.Object);
         workflowTemplateRepositoryMock.Setup(repo => repo.GetById(workflowTemplate.Id)).Returns(workflowTemplate);
         userRepositoryMock.Setup(repo => repo.GetById(user.Id)).Returns(user);
+        requestRepositoryMock.Setup(repo => repo.Add(It.IsAny<Request>()));
+        tenantMock.Setup(tenant => tenant.Commit());
 
         var handler = new CreateRequestHandler(tenantFactoryMock.Object);
         var command = new CreateRequestCommand(user.Id, document, workflowTemplate.Id);

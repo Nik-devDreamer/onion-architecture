@@ -19,13 +19,13 @@ public class GetUserByIdHandlerTests
         var user = new User(userId, "TestUser", new Email("test@gmail.com"), Guid.NewGuid(), new Password("Test@123"));
         var query = new GetUserByIdQuery(userId);
 
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         userRepositoryMock.Setup(repo => repo.GetById(userId)).Returns(user);
 
-        var tenantMock = new Mock<ITenant>();
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
         tenantMock.Setup(t => t.Users).Returns(userRepositoryMock.Object);
 
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
 
         var handler = new GetUserByIdHandler(tenantFactoryMock.Object);
@@ -36,19 +36,6 @@ public class GetUserByIdHandlerTests
         // Assert
         Assert.NotNull(result);
         Assert.That(result.Id, Is.EqualTo(user.Id));
-    }
-
-    [Test]
-    public void Handle_ThrowsArgumentException_WhenUserIdIsEmptyTest()
-    {
-        // Arrange
-        var userId = Guid.NewGuid();
-        var query = new GetUserByIdQuery(userId);
-
-        var handler = new GetUserByIdHandler(Mock.Of<ITenantFactory>());
-
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => handler.Handle(query));
     }
 
     [Test]

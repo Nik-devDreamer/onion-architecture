@@ -19,13 +19,13 @@ public class GetUserByEmailHandlerTests
         var user = new User(Guid.NewGuid(), "Test User", userEmail, Guid.NewGuid(), new Password("Test@123"));
         var query = new GetUserByEmailQuery(userEmail);
 
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         userRepositoryMock.Setup(repo => repo.TryGetByEmail(userEmail)).Returns(user);
 
-        var tenantMock = new Mock<ITenant>();
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
         tenantMock.Setup(t => t.Users).Returns(userRepositoryMock.Object);
 
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
 
         var handler = new GetUserByEmailHandler(tenantFactoryMock.Object);
@@ -49,13 +49,13 @@ public class GetUserByEmailHandlerTests
         var userEmail = new Email("test@gmail.com");
         var query = new GetUserByEmailQuery(userEmail);
 
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
         userRepositoryMock.Setup(repo => repo.TryGetByEmail(userEmail)).Returns((User)null);
 
-        var tenantMock = new Mock<ITenant>();
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
         tenantMock.Setup(t => t.Users).Returns(userRepositoryMock.Object);
 
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
 
         var handler = new GetUserByEmailHandler(tenantFactoryMock.Object);

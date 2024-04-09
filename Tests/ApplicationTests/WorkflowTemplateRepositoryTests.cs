@@ -17,7 +17,7 @@ public class WorkflowTemplateRepositoryTests
     public void Setup()
     {
         _fixture = new Fixture();
-        _mockWorkflowTemplateRepository = new Mock<IWorkflowTemplateRepository>();
+        _mockWorkflowTemplateRepository = new Mock<IWorkflowTemplateRepository>(MockBehavior.Strict);
         _workflowTemplateRepository = _mockWorkflowTemplateRepository.Object;
     }
     
@@ -56,6 +56,7 @@ public class WorkflowTemplateRepositoryTests
         };
 
         var template = new WorkflowTemplate(templateId, templateName, steps);
+        _mockWorkflowTemplateRepository.Setup(repo => repo.Add(template));
 
         // Act
         _workflowTemplateRepository.Add(template);

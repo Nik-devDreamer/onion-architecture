@@ -50,10 +50,10 @@ public class ApproveRequestHandlerTests
     public void Handle_ValidCommand_RequestApprovedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
-        var userRepositoryMock = new Mock<IUserRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
 
         var (request, user) = CreateRequest();
 
@@ -62,6 +62,7 @@ public class ApproveRequestHandlerTests
         tenantMock.Setup(tenant => tenant.Users).Returns(userRepositoryMock.Object);
         requestRepositoryMock.Setup(repo => repo.GetById(request.Id)).Returns(request);
         userRepositoryMock.Setup(repo => repo.GetById(user.Id)).Returns(user);
+        tenantMock.Setup(tenant => tenant.Commit());
 
         var handler = new ApproveRequestHandler(tenantFactoryMock.Object);
         var command = new ApproveRequestCommand(user.Id, request.Id);

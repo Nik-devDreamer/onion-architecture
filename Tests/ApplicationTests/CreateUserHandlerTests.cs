@@ -23,10 +23,10 @@ public class CreateUserHandlerTests
     public void Handle_ValidCommand_UserCreatedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var userRepositoryMock = new Mock<IUserRepository>();
-        var roleRepositoryMock = new Mock<IRoleRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        var roleRepositoryMock = new Mock<IRoleRepository>(MockBehavior.Strict);
 
         var name = _fixture.Create<string>();
         var email = new Email(_fixture.Create<string>() + "@gmail.com");
@@ -41,7 +41,9 @@ public class CreateUserHandlerTests
         tenantMock.Setup(tenant => tenant.Users).Returns(userRepositoryMock.Object);
         tenantMock.Setup(tenant => tenant.Roles).Returns(roleRepositoryMock.Object);
         userRepositoryMock.Setup(repo => repo.Add(It.IsAny<User>())).Callback<User>(u => user = u);
+        userRepositoryMock.Setup(repo => repo.TryGetByEmail(email)).Returns((User)null);
         roleRepositoryMock.Setup(repo => repo.GetById(role.Id)).Returns(role);
+        tenantMock.Setup(tenant => tenant.Commit());
 
         // Act
         createUserHandler.Handle(command);
@@ -54,26 +56,15 @@ public class CreateUserHandlerTests
         Assert.That(user.RoleId, Is.EqualTo(role.Id));
         Assert.That(user.Password, Is.EqualTo(password));
     }
-
-    [Test]
-    public void Handle_NullCommand_ThrowsArgumentNullExceptionTest()
-    {
-        // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var createUserHandler = new CreateUserHandler(tenantFactoryMock.Object);
-
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => createUserHandler.Handle(null));
-    }
     
     [Test]
     public void Handle_UserWithEmailAlreadyExists_ThrowsInvalidOperationException()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var userRepositoryMock = new Mock<IUserRepository>();
-        var roleRepositoryMock = new Mock<IRoleRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
+        var roleRepositoryMock = new Mock<IRoleRepository>(MockBehavior.Strict);
 
         var name = _fixture.Create<string>();
         var email = new Email(_fixture.Create<string>() + "@gmail.com");

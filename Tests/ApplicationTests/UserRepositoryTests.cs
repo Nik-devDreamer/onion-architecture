@@ -18,7 +18,7 @@ public class UserRepositoryTests
     public void Setup()
     {
         _fixture = new Fixture();
-        _mockUserRepository = new Mock<IUserRepository>();
+        _mockUserRepository = new Mock<IUserRepository>(MockBehavior.Strict);
         _userRepository = _mockUserRepository.Object;
     }
     
@@ -67,6 +67,7 @@ public class UserRepositoryTests
     {
         // Arrange
         var user = CreateFakeUser();
+        _mockUserRepository.Setup(repo => repo.Add(user));
 
         // Act
         _userRepository.Add(user);

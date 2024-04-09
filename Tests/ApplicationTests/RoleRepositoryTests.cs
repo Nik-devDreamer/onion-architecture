@@ -17,7 +17,7 @@ public class RoleRepositoryTests
     public void Setup()
     {
         _fixture = new Fixture();
-        _mockRoleRepository = new Mock<IRoleRepository>();
+        _mockRoleRepository = new Mock<IRoleRepository>(MockBehavior.Strict);
         _roleRepository = _mockRoleRepository.Object;
     }
 
@@ -40,6 +40,7 @@ public class RoleRepositoryTests
     {
         // Arrange
         var role = new Role("TestRole");
+        _mockRoleRepository.Setup(repo => repo.Add(role));
 
         // Act
         _roleRepository.Add(role);

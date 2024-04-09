@@ -50,16 +50,17 @@ public class RestartRequestHandlerTests
     public void Handle_ValidCommand_RequestRestartedTest()
     {
         // Arrange
-        var tenantFactoryMock = new Mock<ITenantFactory>();
-        var tenantMock = new Mock<ITenant>();
-        var requestRepositoryMock = new Mock<IRequestRepository>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
+        var tenantMock = new Mock<ITenant>(MockBehavior.Strict);
+        var requestRepositoryMock = new Mock<IRequestRepository>(MockBehavior.Strict);
 
         var (request, _) = CreateRequest();
 
         tenantFactoryMock.Setup(factory => factory.GetTenant()).Returns(tenantMock.Object);
         tenantMock.Setup(tenant => tenant.Requests).Returns(requestRepositoryMock.Object);
         requestRepositoryMock.Setup(repo => repo.GetById(request.Id)).Returns(request);
-
+        tenantMock.Setup(tenant => tenant.Commit());
+        
         var handler = new RestartRequestHandler(tenantFactoryMock.Object);
         var command = new RestartRequestCommand(request.Id);
 

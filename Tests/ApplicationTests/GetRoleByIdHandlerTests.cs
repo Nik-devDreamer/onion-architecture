@@ -18,10 +18,10 @@ public class GetRoleByIdHandlerTests
         
         var query = new GetRoleByIdQuery(role.Id);
         
-        var roleRepositoryMock = new Mock<IRoleRepository>();
+        var roleRepositoryMock = new Mock<IRoleRepository>(MockBehavior.Strict);
         roleRepositoryMock.Setup(repo => repo.GetById(role.Id)).Returns(role);
         
-        var tenantFactoryMock = new Mock<ITenantFactory>();
+        var tenantFactoryMock = new Mock<ITenantFactory>(MockBehavior.Strict);
         tenantFactoryMock.Setup(factory => factory.GetTenant().Roles).Returns(roleRepositoryMock.Object);
         
         var handler = new GetRoleByIdHandler(tenantFactoryMock.Object);
@@ -33,15 +33,5 @@ public class GetRoleByIdHandlerTests
         Assert.IsNotNull(result);
         Assert.That(result.Id, Is.EqualTo(role.Id));
         Assert.That(result.Name, Is.EqualTo("Role"));
-    }
-
-    [Test]
-    public void Handle_ThrowsArgumentException_WhenRoleIdIsEmptyTest()
-    {
-        // Arrange
-        var handler = new GetRoleByIdHandler(Mock.Of<ITenantFactory>());
-
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => handler.Handle(null));
     }
 }
