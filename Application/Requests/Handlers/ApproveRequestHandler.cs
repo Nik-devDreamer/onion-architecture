@@ -14,6 +14,11 @@ public class ApproveRequestHandler
     
     public void Handle(ApproveRequestCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
         var userRepository = tenant.Users;

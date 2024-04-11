@@ -15,6 +15,11 @@ public class CreateWorkflowTemplateHandler
 
     public Guid Handle(CreateWorkflowTemplateCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var workflowRepository = tenant.WorkflowsTemplate;
 

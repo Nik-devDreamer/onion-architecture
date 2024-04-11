@@ -16,6 +16,11 @@ public class CreateUserHandler
 
     public Guid Handle(CreateUserCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var userRepository = tenant.Users;
         var roleRepository = tenant.Roles;

@@ -16,6 +16,11 @@ public class CreateRequestHandler
 
     public void Handle(CreateRequestCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
         var userRepository = tenant.Users;

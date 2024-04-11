@@ -15,6 +15,11 @@ public class CreateRoleHandler
 
     public Guid Handle(CreateRoleCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var roleRepository = tenant.Roles;
 

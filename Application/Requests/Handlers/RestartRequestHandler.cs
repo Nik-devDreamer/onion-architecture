@@ -14,6 +14,11 @@ public class RestartRequestHandler
 
     public void Handle(RestartRequestCommand command)
     {
+        if (command == null)
+        {
+            throw new ArgumentNullException(nameof(command));
+        }
+        
         var tenant = _tenantFactory.GetTenant();
         var requestRepository = tenant.Requests;
 
